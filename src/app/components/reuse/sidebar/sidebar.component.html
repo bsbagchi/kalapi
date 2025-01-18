@@ -1,0 +1,28 @@
+
+<div class="w-[250px]  bg-white overflow-auto h-screen border-e">
+    <a href="/"><div class="flex py-2 justify-center">
+        <img  class="w-[130px]" src="/logo-nav.png" alt="">
+    </div></a>
+    <div class="pt-[76px] ">
+        <div  class="h-12 w-full text-sm pl-5 bg-[--light-gray] text-[--light-text] flex items-center  font-semibold">DASHBOARD</div>
+
+        <a href="/" ><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/') }"  class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold">Dashboard</div></a>
+
+        <div   class="h-12 w-full text-sm pl-5 bg-[--light-gray] text-[--light-text] flex items-center  font-semibold">MASTERS</div>
+        <a href="/agent"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/agent') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Agent</div></a>
+        <a href="/transport"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/transport') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Transport</div></a>
+        <a href="/quality"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/quality') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Cloth Quality</div></a>
+        <a href="/colors"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/colors') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Colours</div></a>
+        <a href="/colour-master"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/colour-master') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Master Colours</div></a>
+
+
+        <div  class="h-12 w-full text-sm pl-5 bg-[--light-gray] text-[--light-text] flex items-center  font-semibold">OTHERS</div>
+        <a href="/customers"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/customers') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Customer</div></a>
+        <a href="/desgins"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/desgins') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Design</div></a>
+        <a href="/printing"><div [ngClass]="{ 'border-s-[6px] text-[--primary]': isActive('/printing') }" class="h-12 w-full text-sm hover:border-s-[6px]  border-[--primary]  text-[--blue-text] hover:text-[--primary] flex items-center pl-12 font-semibold" >Printing</div></a>
+
+        <button (click)="logout()" class="px-2 w-full py-2"><div class="w-full flex gap-2 items-center justify-center h-12 rounded-lg text-white text-sm font-semibold bg-[--primary] hover:bg-black">
+            <img class="h-5 " src="/logout.svg" alt=""> <h2>Logout</h2>
+        </div></button>
+    </div>
+</div>
