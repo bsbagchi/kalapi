@@ -1,0 +1,55 @@
+<div>
+  <app-header [title]="'Edit Profile'"></app-header>
+  
+  <div class="px-[3%] py-8">
+    <div class="bg-white w-full rounded-3xl shadow p-8 max-w-3xl mx-auto">
+      <h1 class="text-2xl font-bold text-blue-600 mb-8">Edit Profile</h1>
+      
+      <form class="space-y-6">
+        <div class="flex items-center gap-x-8">
+          <label class="w-48 text-right font-semibold">Username</label>
+          <input 
+            type="text" 
+            [(ngModel)]="username"
+            name="username"
+            class="flex-1 px-4 py-2 bg-gray-100 rounded-md"
+            readonly>
+        </div>
+
+        <div class="flex items-center gap-x-8">
+          <label class="w-48 text-right font-semibold">Password</label>
+          <input 
+            type="password" 
+            [(ngModel)]="password"
+            name="password"
+            class="flex-1 px-4 py-2 bg-gray-100 rounded-md"
+            readonly>
+          <a href="#" class="text-yellow-400 hover:underline ml-4">Change Password?</a>
+        </div>
+
+        <div class="flex items-center gap-x-8">
+          <label class="w-48 text-right font-semibold">Email address</label>
+          <input 
+            type="email" 
+            [(ngModel)]="email"
+            name="email"
+            class="flex-1 px-4 py-2 bg-gray-100 rounded-md">
+        </div>
+
+        <div class="flex gap-4  justify-center mt-8">
+          <button 
+            type="submit" 
+            (click)="onUpdate()"
+            class="px-8 py-5  bg-yellow-400 text-white rounded-md hover:bg-black font-semibold">
+            Update
+          </button>
+          <button 
+            type="button"
+            class="px-8  py-5  border border-yellow-400 text-yellow-400 rounded-md hover:bg-black font-semibold">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

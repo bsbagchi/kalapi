@@ -1,0 +1,67 @@
+<div>
+  <app-header [title]="'Edit Profile'"></app-header>
+  
+  <div class="px-[3%] py-8">
+    <div class="bg-white w-full rounded-3xl shadow p-8  mx-auto">
+      <h1 class="text-2xl font-bold text-[#0066FF] mb-12">Edit Profile</h1>
+      
+      <form class="space-y-8">
+        <div class="space-y-4">
+        <!-- Username Field -->
+        <div class="flex ">
+          <label class="w-[200px]   pt-2 font-semibold text-black">Username</label>
+          <input 
+            type="text" 
+            [(ngModel)]="username"
+            name="username"
+            class="flex-1 max-w-3xl px-4 py-2 bg-[#F0F0F0] rounded-md"
+            readonly>
+            <div class="max-sm:w-full max-sm:hidden min-w-[200px] flex justify-end max-sm:pt-2"></div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="md:flex  items-center">
+          <div class="w-full flex ">
+          <label class="w-[200px]  font-semibold text-black">Password</label>
+          <input 
+            type="password" 
+            [(ngModel)]="password"
+            name="password"
+            class="flex-1 max-w-3xl px-4 py-2 bg-[#F0F0F0] rounded-md"
+            readonly>
+          </div>
+          <div class="max-sm:w-full min-w-[200px] flex justify-end max-sm:pt-2"><a href="#" class="text-[#FFD700]   hover:underline ml-4 font-semibold">Change Password?</a></div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="flex">
+          <label class="w-[200px]   pt-2 font-semibold text-black">Email address</label>
+          <input 
+            type="email" 
+            [(ngModel)]="email"
+            name="email"
+            class="flex-1 max-w-3xl px-4 py-2 bg-[#F0F0F0] rounded-md">
+            <div class="max-sm:w-full max-sm:hidden min-w-[200px] flex justify-end max-sm:pt-2"></div>
+        </div>
+        
+        
+      </div>
+        <!-- Buttons -->
+        <div class="flex gap-4 justify-center mt-12">
+          <button 
+            type="submit" 
+            (click)="onUpdate()"
+            class="px-12 py-2 bg-[#FFD700] text-white rounded-md hover:bg-black transition-colors duration-200 font-semibold">
+            Update
+          </button>
+          <button 
+            type="button"
+            (click)="onCancel()"
+            class="px-12 py-2 border border-[#FFD700] text-[#FFD700] rounded-md hover:bg-black hover:text-white hover:border-black transition-colors duration-200 font-semibold">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
