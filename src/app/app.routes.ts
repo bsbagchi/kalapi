@@ -11,27 +11,52 @@ import { ColormasterComponent } from './components/home/colormaster/colormaster.
 import { CustomersComponent } from './components/home/customers/customers.component';
 import { DesignComponent } from './components/home/designs/designs.component';
 import { PrintingComponent } from './components/home/printing/printing.component';
+import { UserProfileComponent } from './components/home/user-profile/user-profile.component';
+import { RouterModule } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { AgentHomeComponent } from './components/home/agent/home/agenthome.component';
+import { AgentAddComponent } from './components/home/agent/add/add.component';
+import { TransportAddComponent } from './components/home/transport/add/add.component';
+import { TransportHomeComponent } from './components/home/transport/home/transporthome.component';
 
 export const routes: Routes = [
- 
-  { path: 'login', component: LoginComponent }, // Route for dashboard
   {
     path: '',
     component: HomeComponent,
     canActivate: [AuthGuard],
     children: [  
-      {path: '', component:DashboardComponent}, // Default route
-      { path: 'agent', component: AgentComponent }, // Default route
-      { path: 'transport', component: TransportComponent }, // Default route
-      { path: 'quality', component: QualityComponent }, // Default route
-      { path: 'colors', component: ColorComponent }, // Default route
-      { path: 'colour-master', component: ColormasterComponent }, // Default route
-      { path: 'customers', component: CustomersComponent }, // Default route
-      { path: 'desgins', component: DesignComponent }, // Default route
-      { path: 'printing', component: PrintingComponent }, // Default route
+      {path: '', component: DashboardComponent},
+      { 
+        path: 'agent', 
+        component: AgentComponent,
+        children: [
+          { path: '', component: AgentHomeComponent },
+          { path: 'add', component: AgentAddComponent }
+        ]
+      },
+      { path: 'transport', component: TransportComponent,
+        children: [
+          { path: '', component: TransportHomeComponent },
+          { path: 'add', component: TransportAddComponent }
+        ]
+       },
+      { path: 'quality', component: QualityComponent },
+      { path: 'colors', component: ColorComponent },
+      { path: 'colour-master', component: ColormasterComponent },
+      { path: 'customers', component: CustomersComponent },
+      { path: 'designs', component: DesignComponent },
+      { path: 'printing', component: PrintingComponent },
+      { path: 'user-profile', component: UserProfileComponent },
     ],
   },
-  { path: '**', redirectTo: '' }, // Wildcard route for undefined paths
+  { path: 'login', component: LoginComponent },
+  { path: '**', redirectTo: '' },
 ];
+
+export const appConfig = {
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ]
+};
 
   

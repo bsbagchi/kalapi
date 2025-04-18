@@ -1,32 +1,33 @@
+// login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';  // Adjust the import path as necessary
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-  title = 'kalapi';
   loginForm: FormGroup;
   isLoggedIn = false;
 
-  private defaultUsername = 'admin';
-  private defaultPassword = 'password123';
-
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private loginService: LoginService  // Inject LoginService properly
+  ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      rememberMe: [false], // Add rememberMe control with a default value
+      rememberMe: [false],
     });
   }
 
   ngOnInit(): void {
-    // Ensure this code runs only in the browser
     if (this.isBrowser()) {
       const savedLoginStatus = localStorage.getItem('isLoggedIn');
       this.isLoggedIn = savedLoginStatus === 'true';
@@ -34,32 +35,44 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const { username, password } = this.loginForm.value;
+    if (this.loginForm.valid) {
+      const { username, password } = this.loginForm.value;
 
-    if (username === this.defaultUsername && password === this.defaultPassword) {
-      this.isLoggedIn = true;
+      // Correct login payload mapping
+      const loginPayload = {
+        Name: username,  // Mapping 'username' to 'Name' as expected by the API
+        Password: password
+      };
 
-      // Save login state to localStorage only in the browser
-      if (this.isBrowser()) {
-        localStorage.setItem('isLoggedIn', 'true');
-      }
-
-      this.router.navigate(['/']);
-    } else {
-      alert('Invalid login credentials. Please try again.');
+      // Use the LoginService to make the API call
+      this.loginService.login(loginPayload).subscribe({
+        next: (res) => {
+          console.log('Login successful', res);
+          // Save login state
+          this.isLoggedIn = true;
+          if (this.isBrowser()) {
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', username);
+          }
+          this.router.navigate(['/']);
+        },
+        error: (err: any) => {
+          console.error('Login failed:', err);
+          alert('Invalid login credentials. Please try again.');
+        }
+      });
     }
   }
 
   logout(): void {
     this.isLoggedIn = false;
-
-    // Remove login state from localStorage only in the browser
     if (this.isBrowser()) {
       localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      this.router.navigate(['/login']);
     }
   }
 
-  // Utility function to check if the code is running in the browser
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
   }

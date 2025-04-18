@@ -2,28 +2,38 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../reuse/sidebar/sidebar.component';
+import { SidebarService } from '../../services/sidebar.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, SidebarComponent], // Import CommonModule here
+  imports: [CommonModule, RouterModule, SidebarComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 
 export class HomeComponent {
   title = 'home';
-  isSidebarOpen: boolean = false;
   currentUrl: string = ''; // Variable to store the current URL
+  isDesktop = window.innerWidth >= 1024;
+  isSidebarOpen$;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, public sidebarService: SidebarService) {
+    this.isSidebarOpen$ = this.sidebarService.isSidebarOpen$;
+    
     // Subscribe to NavigationEnd event to get the current URL after navigation ends
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd)) // Filter to listen for NavigationEnd event
       .subscribe((event: NavigationEnd) => {
         this.currentUrl = event.urlAfterRedirects; // Update the currentUrl with the active route
       });
+
+    // Listen for window resize
+    window.addEventListener('resize', () => {
+      this.isDesktop = window.innerWidth >= 1024;
+    });
   }
 
   logout(): void {
@@ -42,9 +52,9 @@ export class HomeComponent {
   isActive(route: string): boolean {
     return this.currentUrl === route;
   }
-  // Method to toggle the sidebar menu
-      toggleSidebar(): void {
-    this.isSidebarOpen = !this.isSidebarOpen;
-  }
 
+  // Method to toggle the sidebar menu
+  toggleSidebar() {
+    this.sidebarService.toggleSidebar();
+  }
 }

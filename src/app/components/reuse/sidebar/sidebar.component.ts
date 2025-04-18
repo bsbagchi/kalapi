@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd} from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators'; // Import the filter operator to listen to NavigationEnd
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngClass
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [ CommonModule], // Import CommonModule here
+  imports: [CommonModule, RouterModule],
   templateUrl: './sidebar.component.html',
 })
 
-
 export class SidebarComponent {
+  @Input() isExpanded: boolean = true;
   title = 'Sidebar';
   currentUrl: string = ''; // Variable to store the current URL
 
@@ -25,10 +26,9 @@ export class SidebarComponent {
   }
 
   logout(): void {
-    // Remove login state from localStorage
-    if (this.isBrowser()) {
-      localStorage.removeItem('isLoggedIn');
-    }
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username'); // Remove username
+    this.router.navigate(['/login']);
   }
 
   // Utility function to check if code is running in the browser
