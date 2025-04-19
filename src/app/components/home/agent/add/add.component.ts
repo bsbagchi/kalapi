@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../reuse/header/header.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-add-aggent',
   standalone: true,
@@ -17,10 +17,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 })
 export class AgentAddComponent {
   title = 'Add Agent';
-  
-  constructor() {}
+  agentForm: FormGroup;
+
+  constructor(private http: HttpClient, private fb: FormBuilder) {
+    this.agentForm = this.fb.group({
+      name: [''],
+      remarks: ['']
+    });
+  }
 
   onSubmit() {
-    // Handle form submission
+    const payload = this.agentForm.value;
+
+    this.http.post('http://www.kalapiprint.somee.com/api/Agent', payload).subscribe({
+      next: (res) => {
+        console.log('Agent created successfully:', res);
+        alert('Agent created successfully!');
+      },
+      error: (err) => {
+        console.error('Error creating agent:', err);
+        alert('Failed to create agent!');
+      }
+    });
   }
 }
+

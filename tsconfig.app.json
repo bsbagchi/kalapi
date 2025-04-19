@@ -4,9 +4,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
+  },
+  "angularCompilerOptions": {
+    "enableStandaloneComponents": true
   },
   "files": [
     "src/main.ts",
