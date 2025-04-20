@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
           if (this.isBrowser()) {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('username', username);
+            localStorage.setItem('userId', res.userId);
           }
           this.router.navigate(['/']);
         },
@@ -69,6 +70,7 @@ export class LoginComponent implements OnInit {
     if (this.isBrowser()) {
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('username');
+      localStorage.removeItem('userId');
       this.router.navigate(['/login']);
     }
   }

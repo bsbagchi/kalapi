@@ -1,7 +1,6 @@
-// agent.service.ts
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +10,31 @@ export class AgentService {
 
   constructor(private http: HttpClient) {}
 
-  getAgents() {
+  /**
+   * Get all agents
+   */
+  getAgents(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  deleteAgent(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  /**
+   * Get a single agent by ID
+   */
+  getAgentById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  updateAgent(id: number, payload: any) {
-    return this.http.put(`${this.apiUrl}/${id}`, payload);
+  /**
+   * Delete an agent by ID
+   */
+  deleteAgent(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  getAgentById(id: number) {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  /**
+   * Update an agent by ID
+   */
+  updateAgent(id: number, payload: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, payload);
   }
 }

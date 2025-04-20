@@ -2,17 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgentService } from '../../../../services/api/agent.service';
 import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';  // <-- Import FormsModule
 
 @Component({
   selector: 'app-agent-home',
   standalone: true,
   templateUrl: './agenthome.component.html',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],  // <-- Include FormsModule here
 })
 export class AgentHomeComponent implements OnInit {
   title = 'Agent Management';
   agents: any[] = [];
+  filteredAgents: any[] = [];
   errorMessage: string = '';
+  filterValue: string = '';
 
   constructor(private AgentService: AgentService, private router: Router) {}
 
@@ -24,6 +27,7 @@ export class AgentHomeComponent implements OnInit {
     this.AgentService.getAgents().subscribe(
       (data) => {
         this.agents = data;
+        this.filteredAgents = data;
       },
       (error) => {
         this.errorMessage = 'Failed to fetch agents';
@@ -49,5 +53,16 @@ export class AgentHomeComponent implements OnInit {
 
   editAgent(id: number): void {
     this.router.navigate(['/agent/edit', id]);
+  }
+
+  filterAgents(): void {
+    if (!this.filterValue.trim()) {
+      this.filteredAgents = this.agents;
+    } else {
+      this.filteredAgents = this.agents.filter(agent => 
+        agent.name.toLowerCase().includes(this.filterValue.toLowerCase()) ||
+        agent.remarks.toLowerCase().includes(this.filterValue.toLowerCase())
+      );
+    }
   }
 }

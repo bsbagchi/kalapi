@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AgentHomeComponent } from './components/home/agent/home/agenthome.component';
 import { AgentAddComponent } from './components/home/agent/add/add.component';
+import { AgentEditComponent } from './components/home/agent/edit/edit.component';
 import { TransportAddComponent } from './components/home/transport/add/add.component';
 import { TransportHomeComponent } from './components/home/transport/home/transporthome.component';
 
@@ -31,7 +32,8 @@ export const routes: Routes = [
         component: AgentComponent,
         children: [
           { path: '', component: AgentHomeComponent },
-          { path: 'add', component: AgentAddComponent }
+          { path: 'add', component: AgentAddComponent },
+          {path:'edit/:id',component:AgentEditComponent}
         ]
       },
       { path: 'transport', component: TransportComponent,
