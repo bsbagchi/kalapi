@@ -5,18 +5,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AgentService {
-  private apiUrl = 'http://www.kalapiprint.somee.com/api/Agent';
+export class WeaverService {
+  private apiUrl = 'http://www.kalapiprint.somee.com/api/Weaver';
 
   constructor(private http: HttpClient) {}
-
-
-  /**
- * Create a new agent
- */
-createAgent(payload: any): Observable<any> {
-  return this.http.post<any>(this.apiUrl, payload);
-}
 
   /**
    * Get all agents

@@ -46,6 +46,27 @@
                 {{ isExpanded ? 'MASTERS' : '' }}
             </div>
 
+            <!-- Weaver Item -->
+            <div class="">
+                <div [routerLink]="['/weaver']" 
+                     [routerLinkActive]="'border-s-[6px] text-[--primary]'"
+                     class="group h-12 w-full text-sm hover:border-s-[6px] border-[--primary] text-[--blue-text] hover:text-[--primary] flex items-center cursor-pointer"
+                     [class.pl-12]="isExpanded" 
+                     [class.justify-center]="!isExpanded">
+                    <svg class="w-5 h-5" fill="currentColor" view   Box="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                    </svg>
+                    <span *ngIf="isExpanded" class="ml-3">Weaver</span>
+                    <div *ngIf="!isExpanded" 
+                         class="opacity-0 group-hover:opacity-100 absolute left-full  ml-2 
+                                bg-black text-white px-3 py-2 text-sm rounded-md whitespace-nowrap pointer-events-none">
+                        
+                                <div class="absolute right-[70px] -rotate-90 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[20px] border-b-black"></div>
+                                Weaver
+                    </div>
+                </div>
+            </div>
+
             <!-- Agent Item -->
             <div class="">
                 <div [routerLink]="['/agent']" 

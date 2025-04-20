@@ -4,6 +4,7 @@ import { HeaderComponent } from '../../../reuse/header/header.component';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { AgentService } from '../../../../services/api/agent.service';
 @Component({
   selector: 'app-add-aggent',
   standalone: true,
@@ -19,23 +20,24 @@ export class AgentAddComponent {
   title = 'Add Agent';
   agentForm: FormGroup;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private agentService: AgentService) {
     this.agentForm = this.fb.group({
       name: [''],
       remarks: ['']
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const formData = this.agentForm.value;
-  const userId = localStorage.getItem('userId'); // get userId from localStorage
+    const userId = localStorage.getItem('userId');
 
-  const payload = {
-    ...formData,
-    customerId: userId  // Add customerId key to payload
-  };
+    const payload = {
+      ...formData,
+      customerId: userId || 0,
 
-    this.http.post('http://www.kalapiprint.somee.com/api/Agent', payload).subscribe({
+    };
+
+    this.agentService.createAgent(payload).subscribe({
       next: (res) => {
         console.log('Agent created successfully:', res);
         alert('Agent created successfully!');
@@ -47,4 +49,5 @@ export class AgentAddComponent {
     });
   }
 }
+
 

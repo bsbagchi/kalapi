@@ -47,13 +47,18 @@
                             </td>
                           </tr>
                         </tbody>
-                        
+                         <!-- No Data Template -->
+          <ng-template #noData>
+            <tr>
+              <td colspan="3">
+                <div class="flex justify-center items-center h-48">
+                  <p class="text-gray-500 text-lg">No agents found.</p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
                       </table>
               
-                      <!-- Template to show when no data -->
-                      <ng-template #noData>
-                        <div class="text-center text-gray-500 py-10 w-full">No agents found.</div>
-                      </ng-template>
                       <app-pagination 
                       [config]="paginationConfig"
                       (pageChange)="onPageChange($event)">

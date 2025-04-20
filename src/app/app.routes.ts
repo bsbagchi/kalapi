@@ -22,6 +22,9 @@ import { AgentEditComponent } from './components/home/agent/edit/edit.component'
 import { TransportAddComponent } from './components/home/transport/add/add.component';
 import { TransportHomeComponent } from './components/home/transport/home/transporthome.component';
 import { TransportEditComponent } from './components/home/transport/edit/edit.component';
+import { WeaverComponent } from './components/home/weaver/weaver.component';
+import { WeaverHomeComponent } from './components/home/weaver/home/weaverhome.component';
+import { WeaverAddComponent } from './components/home/weaver/add/add.component';
 
 export const routes: Routes = [
   {
@@ -30,6 +33,13 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [  
       {path: '', component: DashboardComponent},
+      {
+        path:'weaver',component: WeaverComponent,
+        children:[
+          {path:'',component:WeaverHomeComponent},
+          {path:'add',component:WeaverAddComponent},
+        ]
+      },
       { 
         path: 'agent', 
         component: AgentComponent,

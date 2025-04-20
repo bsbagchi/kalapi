@@ -9,5 +9,5 @@ import { HeaderComponent } from '../../reuse/header/header.component';
   templateUrl: './colormaster.component.html', // Points to the correct HTML file
 })
 export class ColormasterComponent {
-  title = 'Colormaster'; // A title property for display or logic
+  title = 'Master Color'; // A title property for display or logic
 }

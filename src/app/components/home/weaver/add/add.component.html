@@ -1,0 +1,128 @@
+<form [formGroup]="qualityForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
+    <div class="bg-white w-full rounded-3xl shadow p-[2%]">
+      <div class="flex justify-between h-12 space-y-3">
+        <h1 class="text-[--blue-text] text-lg font-bold">Create Weaver</h1>
+      </div>
+      <div class="flex max-sm:flex-col gap-10">
+        <!-- part1 -->
+      <div class=" pb-5 space-y-3 flex-1">
+        <!-- first first -->
+        <div>
+        <h1 class="text-[--blue-text] text-lg font-bold">Main Details</h1>
+
+        <div class="w-full ">
+          <span class="py-2">Name</span>
+          <input formControlName="name" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="name">
+        </div>
+        <div class="w-full ">
+          <span class="py-2">Remarks</span>
+          <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+        </div>
+    </div>
+
+<!-- first sub division -->
+    <div class=" py-5 space-y-3 ">
+
+        <h1 class="text-[--blue-text] text-lg font-bold">Tax Details</h1>
+        <div class="w-full">
+            <span class="py-2">GST State</span>
+            <select 
+              formControlName="remarks" 
+              class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" 
+              id="select"
+            >
+              <option disabled value="">Select state</option>
+              <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+            </select>
+          </div>
+          <!-- Pan Number-->
+          <div class="w-full ">
+            <span class="py-2">Pan Number</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="Pan">
+          </div>
+  <!-- GST Number-->
+  <div class="w-full ">
+    <span class="py-2">GST Number</span>
+    <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="GST">
+  </div>
+    </div>
+      </div>
+
+      <!-- part 2  -->
+      <div class=" pb-5 space-y-3 flex-1">
+        <h1 class="text-[--blue-text] text-lg font-bold">Party Details</h1>
+
+        <div class="w-full ">
+          <span class="py-2">Address</span>
+          <input formControlName="name" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="name">
+        </div>
+        <div class="w-full ">
+          <span class="py-2">Cover Address</span>
+          <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+        </div>
+
+        <div class="w-full">
+            <span class="py-2">State</span>
+            <select 
+              formControlName="remarks" 
+              class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" 
+              id="select"
+            >
+              <option disabled value="">Select state</option>
+              <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+            </select>
+          </div>
+
+          <div class="w-full ">
+            <span class="py-2">District</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+          </div>
+          
+
+          <div class="w-full ">
+            <span class="py-2">City</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+          </div>
+
+          <div class="w-full ">
+            <span class="py-2">Pin Code</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+          </div>
+
+
+          <div class="w-full ">
+            <span class="py-2">Phone (O)</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="remarks">
+          </div>
+
+          <div class="w-full ">
+            <span class="py-2">Phone (R)</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="remarks">
+          </div>
+
+          <div class="w-full ">
+            <span class="py-2">Mobile</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="remarks">
+          </div>
+          <div class="w-full ">
+            <span class="py-2">Fax</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+          </div>
+          <div class="w-full ">
+            <span class="py-2">Email</span>
+            <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+          </div>
+        </div>
+    </div>
+
+      <div class="flex justify-end gap-2">
+        <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/weaver']">
+          Cancel
+        </button>
+        <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+  

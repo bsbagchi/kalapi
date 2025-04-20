@@ -1,0 +1,68 @@
+<div class="px-[3%] py-3 md:py-5">
+    <div class="bg-white w-full rounded-3xl shadow p-[3%]">
+      <div class="md:flex justify-between md:h-12">
+        <h1 class="text-[--blue-text] text-lg font-bold max-sm:py-2">{{title}}</h1>
+        <div class="md:flex gap-2 max-sm:space-y-2">
+          <!-- Bind the filter input to filterValue and trigger filterAgents() on input -->
+          <input 
+            [(ngModel)]="filterValue" 
+            (input)="filterAgents()" 
+            class="bg-[--input] px-3 max-sm:w-full max-sm:h-12 rounded-md" 
+            placeholder="Name or Remarks" 
+            type="text"
+          />
+          <button 
+            class="w-24 font-semibold text-white bg-[--primary] hover:bg-black rounded-lg max-sm:w-full max-sm:h-12" 
+            (click)="filterAgents()">
+            Filter
+          </button>
+          <button 
+            routerLink="add" 
+            class="flex items-center justify-center bg-[--primary] hover:bg-black gap-2 w-24 rounded-lg font-semibold text-white max-sm:w-full max-sm:h-12">
+            <span class="text-3xl">+</span>
+            <h2>Add</h2>
+          </button>
+        </div>
+      </div>
+  
+      <div class="pt-10 overflow-auto">
+        <div class="pt-10 overflow-x-auto">
+          <table class="w-full border-collapse border">
+            <thead>
+              <tr>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Name</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Remarks</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Action</th>
+              </tr>
+            </thead>
+  
+            <tbody *ngIf="paginatedAgents.length > 0; else noData">
+              <tr *ngFor="let agent of paginatedAgents" class="hover:bg-gray-50">
+                <td class="py-1 px-2 text-blue-600 border">{{ agent.name }}</td>
+                <td class="py-1 px-2 border">{{ agent.remarks }}</td>
+                <td class="py-1 px-2 border">
+                  <button (click)="editAgent(agent.id)" class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg"><img src="/edit.svg" alt=""></button>
+                </td>
+              </tr>
+            </tbody>
+             <!-- No Data Template -->
+          <ng-template #noData>
+            <tr>
+              <td colspan="3">
+                <div class="flex justify-center items-center h-48">
+                  <p class="text-gray-500 text-lg">No agents found.</p>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          </table>
+  
+          <app-pagination 
+          [config]="paginationConfig"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+  
