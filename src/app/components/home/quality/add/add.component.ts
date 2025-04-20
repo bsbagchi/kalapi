@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../../reuse/header/header.component';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 @Component({
-  selector: 'app-add-aggent',
+  selector: 'app-add-Quality',
   standalone: true,
   imports: [
     CommonModule,
@@ -15,19 +14,19 @@ import { HttpClient } from '@angular/common/http';
   ],
   templateUrl: './add.component.html',
 })
-export class AgentAddComponent {
-  title = 'Add Agent';
-  agentForm: FormGroup;
+export class QualityAddComponent {
+  title = 'Add Quality';
+  qualityForm: FormGroup;
 
   constructor(private http: HttpClient, private fb: FormBuilder) {
-    this.agentForm = this.fb.group({
+    this.qualityForm = this.fb.group({
       name: [''],
       remarks: ['']
     });
   }
 
   onSubmit() {
-    const formData = this.agentForm.value;
+    const formData = this.qualityForm.value;
   const userId = localStorage.getItem('userId'); // get userId from localStorage
 
   const payload = {
@@ -35,14 +34,14 @@ export class AgentAddComponent {
     customerId: userId  // Add customerId key to payload
   };
 
-    this.http.post('http://www.kalapiprint.somee.com/api/Agent', payload).subscribe({
+    this.http.post('http://www.kalapiprint.somee.com/api/ClothQuality', payload).subscribe({
       next: (res) => {
-        console.log('Agent created successfully:', res);
-        alert('Agent created successfully!');
+        console.log('Quality created successfully:', res);
+        alert('Quality created successfully!');
       },
       error: (err) => {
-        console.error('Error creating agent:', err);
-        alert('Failed to create agent!');
+        console.error('Error creating Quality:', err);
+        alert('Failed to create Quality!');
       }
     });
   }

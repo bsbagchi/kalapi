@@ -26,32 +26,36 @@
     </div>
 
     <div class="pt-10 overflow-auto">
-      <div class="w-full">
-        <table class="w-full text-sm border text-left text-gray-500 dark:text-gray-400">
+      <div class="pt-10 overflow-x-auto">
+        <table class="w-full border-collapse border">
           <thead>
-            <tr class="text-left border-b border-gray-700">
-              <th class="px-4 py-2">Name</th>
-              <th class="px-4 py-2">Remarks</th>
-              <th class="px-4 py-2">Action</th>
+            <tr>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Name</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Remarks</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Action</th>
             </tr>
           </thead>
 
-          <tbody *ngIf="filteredAgents.length > 0; else noData">
-            <tr *ngFor="let agent of filteredAgents" class="bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-yellow-50">
-              <td class="px-4 py-2">{{ agent.name }}</td>
-              <td class="px-4 py-2">{{ agent.remarks }}</td>
-              <td class="px-4 py-2 flex gap-2">
-                <button (click)="editAgent(agent.id)" class="text-blue-500 hover:text-blue-700">Edit</button>
-                <!-- <button (click)="deleteAgent(agent.id)" class="text-red-500 hover:text-red-700">Delete</button> -->
+          <tbody *ngIf="paginatedAgents.length > 0; else noData">
+            <tr *ngFor="let agent of paginatedAgents" class="hover:bg-gray-50">
+              <td class="py-1 px-2 text-blue-600 border">{{ agent.name }}</td>
+              <td class="py-1 px-2 border">{{ agent.remarks }}</td>
+              <td class="py-1 px-2 border">
+                <button (click)="editAgent(agent.id)" class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg"><img src="/edit.svg" alt=""></button>
               </td>
             </tr>
           </tbody>
+          
         </table>
 
         <!-- Template to show when no data -->
         <ng-template #noData>
           <div class="text-center text-gray-500 py-10 w-full">No agents found.</div>
         </ng-template>
+        <app-pagination 
+        [config]="paginationConfig"
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
       </div>
     </div>
   </div>

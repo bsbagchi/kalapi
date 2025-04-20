@@ -6,19 +6,22 @@ import { AgentComponent } from './components/home/agent/agent.component';
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 import { TransportComponent } from './components/home/transport/transport.component';
 import { QualityComponent } from './components/home/quality/quality.component';
+import { QualityHomeComponent } from './components/home/quality/home/qualityhome.component';
+import {QualityAddComponent} from './components/home/quality/add/add.component';
+import {QualityEditComponent} from './components/home/quality/edit/edit.component';
 import { ColorComponent } from './components/home/colors/colors.component';
 import { ColormasterComponent } from './components/home/colormaster/colormaster.component';
 import { CustomersComponent } from './components/home/customers/customers.component';
 import { DesignComponent } from './components/home/designs/designs.component';
 import { PrintingComponent } from './components/home/printing/printing.component';
 import { UserProfileComponent } from './components/home/user-profile/user-profile.component';
-import { RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AgentHomeComponent } from './components/home/agent/home/agenthome.component';
 import { AgentAddComponent } from './components/home/agent/add/add.component';
 import { AgentEditComponent } from './components/home/agent/edit/edit.component';
 import { TransportAddComponent } from './components/home/transport/add/add.component';
 import { TransportHomeComponent } from './components/home/transport/home/transporthome.component';
+import { TransportEditComponent } from './components/home/transport/edit/edit.component';
 
 export const routes: Routes = [
   {
@@ -39,10 +42,19 @@ export const routes: Routes = [
       { path: 'transport', component: TransportComponent,
         children: [
           { path: '', component: TransportHomeComponent },
-          { path: 'add', component: TransportAddComponent }
+          { path: 'add', component: TransportAddComponent },
+          {path:'edit/:id',component:TransportEditComponent}
+
         ]
        },
-      { path: 'quality', component: QualityComponent },
+      { path: 'quality', component: QualityComponent,
+        children: [
+          { path: '', component: QualityHomeComponent },
+          { path: 'add', component: QualityAddComponent },
+          {path:'edit/:id',component:QualityEditComponent}
+
+        ]
+       },
       { path: 'colors', component: ColorComponent },
       { path: 'colour-master', component: ColormasterComponent },
       { path: 'customers', component: CustomersComponent },

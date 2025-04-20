@@ -1,4 +1,4 @@
-<form [formGroup]="transportForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
+<form [formGroup]="qualityForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
     <div class="bg-white w-full rounded-3xl shadow p-[2%]">
       <div class="flex justify-between h-12">
         <h1 class="text-[--blue-text] text-lg font-bold">Create Transport</h1>
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="flex justify-end gap-2">
-        <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/transport']">
+        <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/quality']">
           Cancel
         </button>
         <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">

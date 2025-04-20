@@ -1,46 +1,4 @@
 <div>
-    <app-header [title]="'Cloth Quality'"></app-header>
-    <div class="px-[3%] py-3 md:py-5">
-      <div class="bg-white w-full rounded-3xl shadow p-[3%]">
-        <!-- Header section with search and buttons -->
-        <div class="md:flex space-y-1 justify-between md:h-12">
-          <h1 class="text-[--blue-text] text-lg font-bold">{{title}}</h1>
-          <div class="flex max-sm:flex-col max-sm:space-y-2 gap-2">
-            <input class="max-sm:h-10 bg-[--input] px-3 rounded-lg" placeholder="Name or Remarks" type="text">
-            <button class="max-sm:w-full max-sm:h-10 w-24 font-semibold text-white bg-[--primary] hover:bg-black rounded-lg">Filter</button>
-            <button class="max-sm:w-full max-sm:h-10 flex items-center justify-center bg-[--primary] hover:bg-black gap-2 w-24 rounded-lg font-semibold text-white">
-              <span class="text-3xl">+</span><h2>Add</h2>
-            </button>
-          </div>
-        </div>
-
-        <!-- Table section -->
-        <div class="pt-10 overflow-x-auto">
-          <table class="w-full border-collapse border">
-            <thead>
-              <tr>
-                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Name</th>
-                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Remarks</th>
-                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of paginatedItems" class="hover:bg-gray-50">
-                <td class="py-1 px-2 text-blue-600 border">{{ item.name }}</td>
-                <td class="py-1 px-2 border"></td>
-                <td class="py-1 px-2 border">
-                  <button class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg"><img src="/edit.svg" alt=""></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <!-- Replace old pagination with new component -->
-          <app-pagination 
-            [config]="paginationConfig"
-            (pageChange)="onPageChange($event)">
-          </app-pagination>
-        </div>
-      </div>
-    </div>
+  <app-header [title]="'Cloth Quality'"></app-header>
+  <router-outlet></router-outlet>
 </div>

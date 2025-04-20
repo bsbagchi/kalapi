@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AgentService } from '../../../../services/api/agent.service';
+import { QualityService } from '../../../../services/api/quality.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
 import { PaginationConfig } from '../../../../interfaces/pagination.interface';  // 👈 Import
 
 @Component({
-  selector: 'app-agent-home',
+  selector: 'app-qualtiy-home',
   standalone: true,
-  templateUrl: './agenthome.component.html',
+  templateUrl: './qualityhome.component.html',
   imports: [CommonModule, RouterModule, FormsModule, PaginationComponent],
 })
-export class AgentHomeComponent implements OnInit {
-  title = 'Agent Management';
-  agents: any[] = [];
-  filteredAgents: any[] = [];
-  paginatedAgents: any[] = [];
+export class QualityHomeComponent implements OnInit {
+  title = 'Cloth Qualtiy Management';
+  quality: any[] = [];
+  filteredQuality: any[] = [];
+  paginatedQuality: any[] = [];
   filterValue = '';
   errorMessage = '';
 
@@ -27,21 +27,21 @@ export class AgentHomeComponent implements OnInit {
     totalItems: 0,
   };
 
-  constructor(private AgentService: AgentService, private router: Router) {}
+  constructor(private QualityService: QualityService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchAgents();
+    this.fetchQuality();
   }
 
-  fetchAgents(): void {
-    this.AgentService.getAgents().subscribe(
+  fetchQuality(): void {
+    this.QualityService.getQuality().subscribe(
       (data) => {
-        this.agents = data;
-        this.filteredAgents = data;
+        this.quality = data;
+        this.filteredQuality = data;
         this.setupPagination(data);
       },
       (error) => {
-        this.errorMessage = 'Failed to fetch agents';
+        this.errorMessage = 'Failed to fetch quality';
         console.error(error);
       }
     );
@@ -50,48 +50,48 @@ export class AgentHomeComponent implements OnInit {
   setupPagination(data: any[]): void {
     this.paginationConfig.totalItems = data.length;
     this.paginationConfig.totalPages = Math.ceil(data.length / this.paginationConfig.itemsPerPage);
-    this.paginateAgents();
+    this.paginateQuality();
   }
 
-  paginateAgents(): void {
+  paginateQuality(): void {
     const start = (this.paginationConfig.currentPage - 1) * this.paginationConfig.itemsPerPage;
     const end = start + this.paginationConfig.itemsPerPage;
-    this.paginatedAgents = this.filteredAgents.slice(start, end);
+    this.paginatedQuality = this.filteredQuality.slice(start, end);
   }
 
   onPageChange(page: number): void {
     this.paginationConfig.currentPage = page;
-    this.paginateAgents();
+    this.paginateQuality();
   }
 
-  filterAgents(): void {
+  filterQuality(): void {
     if (!this.filterValue.trim()) {
-      this.filteredAgents = this.agents;
+      this.filteredQuality = this.quality;
     } else {
       const lower = this.filterValue.toLowerCase();
-      this.filteredAgents = this.agents.filter(agent =>
-        agent.name.toLowerCase().includes(lower) || agent.remarks.toLowerCase().includes(lower)
+      this.filteredQuality = this.quality.filter(quality =>
+        quality.name.toLowerCase().includes(lower) || quality.remarks.toLowerCase().includes(lower)
       );
     }
 
-    this.setupPagination(this.filteredAgents);
+    this.setupPagination(this.filteredQuality);
   }
 
-  editAgent(id: number): void {
-    this.router.navigate(['/agent/edit', id]);
+  editQuality(id: number): void {
+    this.router.navigate(['/quality/edit', id]);
   }
 
-  deleteAgent(id: number): void {
-    if (confirm('Are you sure you want to delete this agent?')) {
-      this.AgentService.deleteAgent(id).subscribe({
+  deleteQuality(id: number): void {
+    if (confirm('Are you sure you want to delete this Quality?')) {
+      this.QualityService.deleteQuality(id).subscribe({
         next: () => {
-          this.agents = this.agents.filter(agent => agent.id !== id);
-          this.filterAgents();  // reapply filter after delete
-          alert('Agent deleted successfully!');
+          this.quality = this.quality.filter(quality => quality.id !== id);
+          this.filterQuality();  // reapply filter after delete
+          alert('Quality deleted successfully!');
         },
         error: (err) => {
           console.error('Delete failed:', err);
-          alert('Failed to delete agent!');
+          alert('Failed to delete Quality!');
         }
       });
     }
