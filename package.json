@@ -7,7 +7,8 @@
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:kalapi": "node dist/kalapi/server/server.mjs"
+    "serve:ssr:kalapi": "node dist/kalapi/server/server.mjs",
+    "build:ssr": "ng build --configuration production && ng run kalapi:server:production"
   },
   "private": true,
   "dependencies": {
