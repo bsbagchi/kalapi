@@ -69,10 +69,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "kalapi:build:production"
+              "buildTarget": "kalapi:build:production",
+              "host": "0.0.0.0"
             },
             "development": {
-              "buildTarget": "kalapi:build:development"
+              "buildTarget": "kalapi:build:development",
+              "host": "0.0.0.0"
             }
           },
           "defaultConfiguration": "development"
