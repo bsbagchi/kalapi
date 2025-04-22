@@ -6,35 +6,39 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class WeaverService {
-  private apiUrl = 'http://www.kalapiprint.somee.com/api/Weaver';
+  private apiUrl = 'http://www.kalapiprint.somee.com/api/Weaver'; // Replace with your actual API endpoint
 
   constructor(private http: HttpClient) {}
 
+  createWeaver(payload: any): Observable<any> {
+    return this.http.post(this.apiUrl, payload);
+  }
+
   /**
-   * Get all agents
+   * Get all Weaver
    */
-  getAgents(): Observable<any[]> {
+  getWeaver(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
   /**
    * Get a single agent by ID
    */
-  getAgentById(id: number): Observable<any> {
+  getWeaverById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
   /**
    * Delete an agent by ID
    */
-  deleteAgent(id: number): Observable<any> {
+  deleteWeaver(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
   /**
    * Update an agent by ID
    */
-  updateAgent(id: number, payload: any): Observable<any> {
+  updateWeaver(id: number, payload: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, payload);
   }
 }

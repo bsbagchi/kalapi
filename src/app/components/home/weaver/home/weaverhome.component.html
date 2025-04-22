@@ -6,14 +6,14 @@
           <!-- Bind the filter input to filterValue and trigger filterAgents() on input -->
           <input 
             [(ngModel)]="filterValue" 
-            (input)="filterAgents()" 
+            (input)="filterWeaver()" 
             class="bg-[--input] px-3 max-sm:w-full max-sm:h-12 rounded-md" 
             placeholder="Name or Remarks" 
             type="text"
           />
           <button 
             class="w-24 font-semibold text-white bg-[--primary] hover:bg-black rounded-lg max-sm:w-full max-sm:h-12" 
-            (click)="filterAgents()">
+            (click)="filterWeaver()">
             Filter
           </button>
           <button 
@@ -32,25 +32,53 @@
               <tr>
                 <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Name</th>
                 <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Remarks</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Gst Number</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Pan Number</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Gst State</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Address</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Cover Address</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">State</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">District</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">City</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Pin Code</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Phone No. Office</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Phone No. Residant</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Mobile No.</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Fax</th>
+                <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Email</th>
                 <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Action</th>
               </tr>
             </thead>
   
-            <tbody *ngIf="paginatedAgents.length > 0; else noData">
-              <tr *ngFor="let agent of paginatedAgents" class="hover:bg-gray-50">
-                <td class="py-1 px-2 text-blue-600 border">{{ agent.name }}</td>
-                <td class="py-1 px-2 border">{{ agent.remarks }}</td>
+            <tbody *ngIf="paginatedWeaver.length > 0; else noData">
+              <tr *ngFor="let weaver of paginatedWeaver" class="hover:bg-gray-50">
+                <td class="py-1 px-2 text-blue-600 border">{{ weaver.name }}</td>
+                <td class="py-1 px-2 border">{{ weaver.remarks }}</td>
+                <td class="py-1 px-2 border">{{ weaver.gstNo }}</td>
+                <td class="py-1 px-2 border">{{ weaver.panNo }}</td>
+                <td class="py-1 px-2 border">{{ weaver.gstState }}</td>
+                <td class="py-1 px-2 border">{{ weaver.address }}</td>
+                <td class="py-1 px-2 border">{{ weaver.coverAddress }}</td>
+                <td class="py-1 px-2 border">{{ weaver.state }}</td>
+                <td class="py-1 px-2 border">{{ weaver.district }}</td>
+                <td class="py-1 px-2 border">{{ weaver.city }}</td>
+                <td class="py-1 px-2 border">{{ weaver.pinCode }}</td>
+                <td class="py-1 px-2 border">{{ weaver.phoneNoOffice }}</td>
+                <td class="py-1 px-2 border">{{ weaver.phoneNoResidant }}</td>
+                <td class="py-1 px-2 border">{{ weaver.mobileNo }}</td>
+                <td class="py-1 px-2 border">{{ weaver.fax }}</td>
+                <td class="py-1 px-2 border">{{ weaver.email }}</td>
                 <td class="py-1 px-2 border">
-                  <button (click)="editAgent(agent.id)" class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg"><img src="/edit.svg" alt=""></button>
+                  <button (click)="editWeaver(weaver.id)" class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg"><img src="/edit.svg" alt=""></button>
                 </td>
               </tr>
             </tbody>
              <!-- No Data Template -->
           <ng-template #noData>
             <tr>
-              <td colspan="3">
+              <td colspan="16">
                 <div class="flex justify-center items-center h-48">
-                  <p class="text-gray-500 text-lg">No agents found.</p>
+                  <p class="text-gray-500 text-lg">No Weaver found.</p>
                 </div>
               </td>
             </tr>

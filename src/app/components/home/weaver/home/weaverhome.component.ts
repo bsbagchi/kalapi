@@ -14,9 +14,9 @@ import { PaginationConfig } from '../../../../interfaces/pagination.interface'; 
 })
 export class WeaverHomeComponent implements OnInit {
   title = 'Weaver Management';
-  agents: any[] = [];
-  filteredAgents: any[] = [];
-  paginatedAgents: any[] = [];
+  weaver: any[] = [];
+  filteredWeaver: any[] = [];
+  paginatedWeaver: any[] = [];
   filterValue = '';
   errorMessage = '';
 
@@ -30,18 +30,18 @@ export class WeaverHomeComponent implements OnInit {
   constructor(private WeaverServce: WeaverService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchAgents();
+    this.fetchWeaver();
   }
 
-  fetchAgents(): void {
-    this.WeaverServce.getAgents().subscribe(
+  fetchWeaver(): void {
+    this.WeaverServce.getWeaver().subscribe(
       (data) => {
-        this.agents = data;
-        this.filteredAgents = data;
+        this.weaver = data;
+        this.filteredWeaver = data;
         this.setupPagination(data);
       },
       (error) => {
-        this.errorMessage = 'Failed to fetch agents';
+        this.errorMessage = 'Failed to fetch Weaver';
         console.error(error);
       }
     );
@@ -56,7 +56,7 @@ export class WeaverHomeComponent implements OnInit {
   paginateAgents(): void {
     const start = (this.paginationConfig.currentPage - 1) * this.paginationConfig.itemsPerPage;
     const end = start + this.paginationConfig.itemsPerPage;
-    this.paginatedAgents = this.filteredAgents.slice(start, end);
+    this.paginatedWeaver = this.filteredWeaver.slice(start, end);
   }
 
   onPageChange(page: number): void {
@@ -64,29 +64,29 @@ export class WeaverHomeComponent implements OnInit {
     this.paginateAgents();
   }
 
-  filterAgents(): void {
+  filterWeaver(): void {
     if (!this.filterValue.trim()) {
-      this.filteredAgents = this.agents;
+      this.filteredWeaver = this.weaver;
     } else {
       const lower = this.filterValue.toLowerCase();
-      this.filteredAgents = this.agents.filter(agent =>
-        agent.name.toLowerCase().includes(lower) || agent.remarks.toLowerCase().includes(lower)
+      this.filteredWeaver = this.weaver.filter(weaver =>
+        weaver.name.toLowerCase().includes(lower) || weaver.remarks.toLowerCase().includes(lower)
       );
     }
 
-    this.setupPagination(this.filteredAgents);
+    this.setupPagination(this.filteredWeaver);
   }
 
-  editAgent(id: number): void {
-    this.router.navigate(['/agent/edit', id]);
+  editWeaver(id: number): void {
+    this.router.navigate(['/weaver/edit', id]);
   }
 
-  deleteAgent(id: number): void {
+  deleteWeaver(id: number): void {
     if (confirm('Are you sure you want to delete this agent?')) {
-      this.WeaverServce.deleteAgent(id).subscribe({
+      this.WeaverServce.deleteWeaver(id).subscribe({
         next: () => {
-          this.agents = this.agents.filter(agent => agent.id !== id);
-          this.filterAgents();  // reapply filter after delete
+          this.weaver = this.weaver.filter(weaver => weaver.id !== id);
+          this.filterWeaver();  // reapply filter after delete
           alert('Agent deleted successfully!');
         },
         error: (err) => {

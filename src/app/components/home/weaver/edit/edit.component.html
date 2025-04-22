@@ -1,4 +1,4 @@
-<form [formGroup]="qualityForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
+<form [formGroup]="weaverForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
     <div class="bg-white w-full rounded-3xl shadow p-[2%]">
       <div class="flex justify-between h-12 space-y-3">
         <h1 class="text-[--blue-text] text-lg font-bold">Create Weaver</h1>
@@ -13,7 +13,7 @@
         <div class="w-full ">
           <span class="py-2">Name</span>
           <input formControlName="name" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="name">
-          <div *ngIf="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched">
+          <div *ngIf="weaverForm.get('name')?.invalid && weaverForm.get('name')?.touched">
             Name is required.
           </div>
         </div>
@@ -122,7 +122,7 @@
         <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/weaver']">
           Cancel
         </button>
-        <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [disabled]="qualityForm.invalid">
+        <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [disabled]="weaverForm.invalid">
           Submit
         </button>
       </div>

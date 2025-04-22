@@ -25,6 +25,7 @@ import { TransportEditComponent } from './components/home/transport/edit/edit.co
 import { WeaverComponent } from './components/home/weaver/weaver.component';
 import { WeaverHomeComponent } from './components/home/weaver/home/weaverhome.component';
 import { WeaverAddComponent } from './components/home/weaver/add/add.component';
+import { WeaverEditComponent } from './components/home/weaver/edit/edit.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,7 @@ export const routes: Routes = [
         children:[
           {path:'',component:WeaverHomeComponent},
           {path:'add',component:WeaverAddComponent},
+          {path:'edit/:id',component:WeaverEditComponent}
         ]
       },
       { 
