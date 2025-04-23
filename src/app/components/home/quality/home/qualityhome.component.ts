@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
 import { PaginationConfig } from '../../../../interfaces/pagination.interface';  // 👈 Import
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-qualtiy-home',
@@ -43,6 +44,12 @@ export class QualityHomeComponent implements OnInit {
       (error) => {
         this.errorMessage = 'Failed to fetch quality';
         console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to fetch quality details.',
+          confirmButtonText: 'OK'
+        });
       }
     );
   }
@@ -82,18 +89,37 @@ export class QualityHomeComponent implements OnInit {
   }
 
   deleteQuality(id: number): void {
-    if (confirm('Are you sure you want to delete this Quality?')) {
-      this.QualityService.deleteQuality(id).subscribe({
-        next: () => {
-          this.quality = this.quality.filter(quality => quality.id !== id);
-          this.filterQuality();  // reapply filter after delete
-          alert('Quality deleted successfully!');
-        },
-        error: (err) => {
-          console.error('Delete failed:', err);
-          alert('Failed to delete Quality!');
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You are about to delete this Quality.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.QualityService.deleteQuality(id).subscribe({
+          next: () => {
+            this.quality = this.quality.filter(quality => quality.id !== id);
+            this.filterQuality();  // reapply filter after delete
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Quality deleted successfully!',
+              confirmButtonText: 'OK'
+            });
+          },
+          error: (err) => {
+            console.error('Delete failed:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed!',
+              text: 'Failed to delete Quality!',
+              confirmButtonText: 'OK'
+            });
+          }
+        });
+      }
+    });
   }
 }

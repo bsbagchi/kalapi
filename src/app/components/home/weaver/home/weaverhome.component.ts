@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { WeaverService } from '../../../../services/api/weaver.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
-import { PaginationConfig } from '../../../../interfaces/pagination.interface';  // 👈 Import
+import { PaginationComponent } from '../../../reuse/pagination/pagination.component';
+import { PaginationConfig } from '../../../../interfaces/pagination.interface';
+import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 
 @Component({
   selector: 'app-process-home',
@@ -43,6 +44,11 @@ export class WeaverHomeComponent implements OnInit {
       (error) => {
         this.errorMessage = 'Failed to fetch Weaver';
         console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to fetch weavers!',
+        });
       }
     );
   }
@@ -82,18 +88,35 @@ export class WeaverHomeComponent implements OnInit {
   }
 
   deleteWeaver(id: number): void {
-    if (confirm('Are you sure you want to delete this agent?')) {
-      this.WeaverServce.deleteWeaver(id).subscribe({
-        next: () => {
-          this.weaver = this.weaver.filter(weaver => weaver.id !== id);
-          this.filterWeaver();  // reapply filter after delete
-          alert('Agent deleted successfully!');
-        },
-        error: (err) => {
-          console.error('Delete failed:', err);
-          alert('Failed to delete agent!');
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won’t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.WeaverServce.deleteWeaver(id).subscribe({
+          next: () => {
+            this.weaver = this.weaver.filter(weaver => weaver.id !== id);
+            this.filterWeaver();
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Weaver deleted successfully.',
+            });
+          },
+          error: (err) => {
+            console.error('Delete failed:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed!',
+              text: 'Failed to delete the weaver.',
+            });
+          }
+        });
+      }
+    });
   }
 }

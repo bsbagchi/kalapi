@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-transport',
@@ -18,7 +19,7 @@ import { HttpClient } from '@angular/common/http';
 export class TransportEditComponent implements OnInit {
   title = 'Edit Transport';
   transportForm: FormGroup;
-  transportId!: number; // <-- this will hold route param
+  transportId!: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +37,6 @@ export class TransportEditComponent implements OnInit {
 
     this.http.get<any>(`http://www.kalapiprint.somee.com/api/Transport/${this.transportId}`).subscribe({
       next: (data) => {
-        // Patch the form with existing values
         this.transportForm.patchValue({
           name: data.name,
           remarks: data.remarks
@@ -44,16 +44,21 @@ export class TransportEditComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching Transport:', err);
-        alert('Failed to fetch agent details.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to fetch transport details.',
+          confirmButtonText: 'OK'
+        });
       }
     });
   }
 
   onSubmit() {
-    const now = new Date().toISOString(); // for createdDate / updatedDate
+    const now = new Date().toISOString();
     const payload = {
       id: this.transportId,
-      customerId: 0, // Assuming you're not using it now
+      customerId: 0,
       name: this.transportForm.value.name,
       remarks: this.transportForm.value.remarks,
       createdDate: now, 
@@ -62,12 +67,22 @@ export class TransportEditComponent implements OnInit {
 
     this.http.put(`http://www.kalapiprint.somee.com/api/Transport/${this.transportId}`, payload).subscribe({
       next: (res) => {
-        console.log('Agent updated successfully:', res);
-        alert('Transport updated successfully!');
+        console.log('Transport updated successfully:', res);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Transport updated successfully!',
+          confirmButtonText: 'OK'
+        });
       },
       error: (err) => {
         console.error('Error updating Transport:', err);
-        alert('Failed to update Transport!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to update Transport!',
+          confirmButtonText: 'OK'
+        });
       }
     });
   }

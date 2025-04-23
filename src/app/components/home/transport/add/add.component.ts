@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../../reuse/header/header.component';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-add-transport',
   standalone: true,
@@ -28,23 +29,32 @@ export class TransportAddComponent {
 
   onSubmit() {
     const formData = this.transportForm.value;
-  const userId = localStorage.getItem('userId'); // get userId from localStorage
+    const userId = localStorage.getItem('userId'); // get userId from localStorage
 
-  const payload = {
-    ...formData,
-    customerId: userId  // Add customerId key to payload
-  };
+    const payload = {
+      ...formData,
+      customerId: userId  // Add customerId key to payload
+    };
 
     this.http.post('http://www.kalapiprint.somee.com/api/Transport', payload).subscribe({
       next: (res) => {
         console.log('Transport created successfully:', res);
-        alert('Transport created successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Transport created successfully!',
+          confirmButtonText: 'OK'
+        });
       },
       error: (err) => {
         console.error('Error creating Transport:', err);
-        alert('Failed to create Transport!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to create Transport!',
+          confirmButtonText: 'OK'
+        });
       }
     });
   }
 }
-

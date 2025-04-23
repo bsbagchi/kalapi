@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WeaverService } from '../../../../services/api/weaver.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-weaver',
@@ -46,31 +47,44 @@ export class WeaverAddComponent {
       remarks: [''],
     });
   }
+
   onSubmit() {
     if (this.qualityForm.invalid) {
-      alert('Please fill all required fields.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Form',
+        text: 'Please fill all required fields.',
+        confirmButtonText: 'OK'
+      });
       return;
     }
   
     const payload = {
       customerId: Number(localStorage.getItem('userId')) || 0,
       ...this.qualityForm.value,
-    
     };
   
     console.log('Submitting payload:', JSON.stringify(payload, null, 2));
   
-    
     this.weaverService.createWeaver(payload).subscribe({
       next: (res) => {
         console.log('Weaver created successfully:', res);
-        alert('Weaver created successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Weaver created successfully!',
+          confirmButtonText: 'OK'
+        });
       },
       error: (err) => {
         console.error('Error creating Weaver:', err);
-        alert('Failed to create Weaver!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to create Weaver!',
+          confirmButtonText: 'Try Again'
+        });
       }
     });
   }
-    
 }

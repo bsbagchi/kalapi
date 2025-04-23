@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-quality',
@@ -44,7 +45,12 @@ export class QualityEditComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching Quality:', err);
-        alert('Failed to fetch Quality details.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to fetch Quality details.',
+          confirmButtonText: 'OK'
+        });
       }
     });
   }
@@ -63,11 +69,21 @@ export class QualityEditComponent implements OnInit {
     this.http.put(`http://www.kalapiprint.somee.com/api/ClothQuality/${this.qualityId}`, payload).subscribe({
       next: (res) => {
         console.log('Quality updated successfully:', res);
-        alert('Quality updated successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Updated!',
+          text: 'Quality updated successfully!',
+          confirmButtonText: 'OK'
+        });
       },
       error: (err) => {
         console.error('Error updating Quality:', err);
-        alert('Failed to update Quality!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to update Quality!',
+          confirmButtonText: 'Try Again'
+        });
       }
     });
   }

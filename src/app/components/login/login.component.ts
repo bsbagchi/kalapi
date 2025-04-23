@@ -1,9 +1,9 @@
-// login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/api/login.service';  // Adjust the import path as necessary
+import { LoginService } from '../../services/api/login.service';
+import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private loginService: LoginService  // Inject LoginService properly
+    private loginService: LoginService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -38,29 +38,39 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const { username, password } = this.loginForm.value;
 
-      // Correct login payload mapping
       const loginPayload = {
-        Name: username,  // Mapping 'username' to 'Name' as expected by the API
-        Password: password
+        Name: username,
+        Password: password,
       };
 
-      // Use the LoginService to make the API call
       this.loginService.login(loginPayload).subscribe({
         next: (res) => {
           console.log('Login successful', res);
-          // Save login state
           this.isLoggedIn = true;
           if (this.isBrowser()) {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('username', username);
             localStorage.setItem('userId', res.userId);
           }
-          this.router.navigate(['/']);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Login Successful',
+            text: `Welcome back, ${username}!`,
+            timer: 1500,
+            showConfirmButton: false,
+          }).then(() => {
+            this.router.navigate(['/']);
+          });
         },
         error: (err: any) => {
           console.error('Login failed:', err);
-          alert('Invalid login credentials. Please try again.');
-        }
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Invalid login credentials. Please try again.',
+          });
+        },
       });
     }
   }
@@ -71,7 +81,15 @@ export class LoginComponent implements OnInit {
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('username');
       localStorage.removeItem('userId');
-      this.router.navigate(['/login']);
+      Swal.fire({
+        icon: 'info',
+        title: 'Logged Out',
+        text: 'You have been logged out successfully.',
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        this.router.navigate(['/login']);
+      });
     }
   }
 

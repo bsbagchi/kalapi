@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../../reuse/header/header.component';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { AgentService } from '../../../../services/api/agent.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-aggent',
   standalone: true,
@@ -20,7 +20,7 @@ export class AgentAddComponent {
   title = 'Add Agent';
   agentForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private agentService: AgentService) {
+  constructor(private fb: FormBuilder, private agentService: AgentService, private router:Router) {
     this.agentForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -40,11 +40,23 @@ export class AgentAddComponent {
     this.agentService.createAgent(payload).subscribe({
       next: (res) => {
         console.log('Agent created successfully:', res);
-        alert('Agent created successfully!');
+        Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: 'Agent details added successfully.',
+                    confirmButtonText: 'OK'
+                  }).then(()=>{
+                    this.router.navigate(['/agent'])
+                  });
       },
       error: (err) => {
         console.error('Error creating agent:', err);
-        alert('Failed to create agent!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to create agent!',
+          confirmButtonText: 'Try Again'
+        })
       }
     });
   }

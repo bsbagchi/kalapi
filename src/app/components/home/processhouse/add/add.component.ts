@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProcessService } from '../../../../services/api/process.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-process',
@@ -48,29 +49,42 @@ export class ProcessAddComponent {
   }
   onSubmit() {
     if (this.qualityForm.invalid) {
-      alert('Please fill all required fields.');
+      console.log('Form is invalid'); // ✅ confirm this logs
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Form',
+        text: 'Please fill all required fields.',
+        confirmButtonText: 'OK'
+      });
       return;
     }
-  
+    
     const payload = {
       customerId: Number(localStorage.getItem('userId')) || 0,
       ...this.qualityForm.value,
-    
     };
   
     console.log('Submitting payload:', JSON.stringify(payload, null, 2));
   
-    
     this.processService.createProcess(payload).subscribe({
       next: (res) => {
         console.log('Process created successfully:', res);
-        alert('Process House created successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Process House created successfully!',
+          confirmButtonText: 'OK'
+        });
       },
       error: (err) => {
         console.error('Error creating Process House:', err);
-        alert('Failed to create Process House!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to create Process House.',
+          confirmButtonText: 'Try Again'
+        });
       }
     });
   }
-    
 }

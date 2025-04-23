@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeaverService } from '../../../../services/api/weaver.service';
+import { ProcessService } from '../../../../services/api/process.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-edit-process',
@@ -29,7 +30,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
     constructor(
       private route: ActivatedRoute,
       private fb: FormBuilder,
-      private weaverService: WeaverService // ✅ inject the service
+      private processService: ProcessService // ✅ inject the service
     ) {
       this.weaverForm = this.fb.group({
         name: [''],
@@ -54,7 +55,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
     ngOnInit(): void {
       this.weaverId = Number(this.route.snapshot.paramMap.get('id'));
   
-      this.weaverService.getWeaverById(this.weaverId).subscribe({
+      this.processService.getProcessById(this.weaverId).subscribe({
         next: (data) => {
           this.weaverForm.patchValue({
              name: data.name,
@@ -76,14 +77,27 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
           });
         },
         error: (err) => {
-          console.error('Error fetching agent:', err);
-          alert('Failed to fetch agent details.');
+          console.error('Error fetching Process House:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Failed to fetch Process House details!',
+            showCancelButton: true,
+            confirmButtonText: 'Try Again',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              location.reload(); // 🔁 This will reload the entire page
+            }
+          });
+                    
         }
       });
     }
   
     onSubmit(): void {
-      const now = new Date().toISOString();
       const payload = {
         id: this.weaverId,
         customerId: localStorage.getItem('userId'),
@@ -104,17 +118,26 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
         fax: Number(this.weaverForm.value.fax),
         email: this.weaverForm.value.email,
       };
-  
-      this.weaverService.updateWeaver(this.weaverId, payload).subscribe({
+    
+      this.processService.updateProcess(this.weaverId, payload).subscribe({
         next: (res) => {
-          console.log('Weaver updated successfully:', res);
-          alert('Weaver updated successfully!');
+          console.log('Process House updated successfully:', res);
+          Swal.fire({
+            icon: 'success',
+            title: 'Updated!',
+            text: 'Process House details updated successfully.',
+            confirmButtonText: 'OK'
+          });
         },
         error: (err) => {
-          console.error('Error updating Weaver:', err);
-          alert('Failed to update Weaver!');
+          console.error('Error updating Process House:', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Update Failed',
+            text: 'Failed to update Process House details.',
+            confirmButtonText: 'Try Again'
+          });
         }
       });
     }
   }
-  

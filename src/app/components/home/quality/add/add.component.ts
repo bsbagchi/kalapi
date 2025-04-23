@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-add-Quality',
   standalone: true,
@@ -27,23 +29,32 @@ export class QualityAddComponent {
 
   onSubmit() {
     const formData = this.qualityForm.value;
-  const userId = localStorage.getItem('userId'); // get userId from localStorage
+    const userId = localStorage.getItem('userId'); // get userId from localStorage
 
-  const payload = {
-    ...formData,
-    customerId: userId  // Add customerId key to payload
-  };
+    const payload = {
+      ...formData,
+      customerId: userId  // Add customerId key to payload
+    };
 
     this.http.post('http://www.kalapiprint.somee.com/api/ClothQuality', payload).subscribe({
       next: (res) => {
         console.log('Quality created successfully:', res);
-        alert('Quality created successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'Quality created successfully!',
+          confirmButtonText: 'OK'
+        });
       },
       error: (err) => {
         console.error('Error creating Quality:', err);
-        alert('Failed to create Quality!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          text: 'Failed to create Quality!',
+          confirmButtonText: 'Try Again'
+        });
       }
     });
   }
 }
-

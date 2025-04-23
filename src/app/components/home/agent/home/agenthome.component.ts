@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
 import { PaginationConfig } from '../../../../interfaces/pagination.interface';  // 👈 Import
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agent-home',
@@ -43,6 +44,13 @@ export class AgentHomeComponent implements OnInit {
       (error) => {
         this.errorMessage = 'Failed to fetch agents';
         console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to fetch agent details!',
+          confirmButtonText: 'OK',
+        });
+
       }
     );
   }
@@ -82,18 +90,39 @@ export class AgentHomeComponent implements OnInit {
   }
 
   deleteAgent(id: number): void {
-    if (confirm('Are you sure you want to delete this agent?')) {
-      this.AgentService.deleteAgent(id).subscribe({
-        next: () => {
-          this.agents = this.agents.filter(agent => agent.id !== id);
-          this.filterAgents();  // reapply filter after delete
-          alert('Agent deleted successfully!');
-        },
-        error: (err) => {
-          console.error('Delete failed:', err);
-          alert('Failed to delete agent!');
-        }
-      });
-    }
+    Swal.fire({
+      icon: 'warning',
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this agent?',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Delete it!',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.AgentService.deleteAgent(id).subscribe({
+          next: () => {
+            this.agents = this.agents.filter(agent => agent.id !== id);
+            this.filterAgents();  // reapply filter after delete
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Agent deleted successfully!',
+              confirmButtonText: 'OK'
+            });
+          },
+          error: (err) => {
+            console.error('Delete failed:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed!',
+              text: 'Failed to delete agent!',
+              confirmButtonText: 'Try Again'
+            });
+          }
+        });
+      }
+    });
   }
 }

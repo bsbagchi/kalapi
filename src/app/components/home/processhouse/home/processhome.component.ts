@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
 import { PaginationConfig } from '../../../../interfaces/pagination.interface';  // 👈 Import
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-process-home',
@@ -43,6 +44,12 @@ export class ProcessHomeComponent implements OnInit {
       (error) => {
         this.errorMessage = 'Failed to fetch Weaver';
         console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Failed to fetch process details!',
+          confirmButtonText: 'OK'
+        });
       }
     );
   }
@@ -78,22 +85,41 @@ export class ProcessHomeComponent implements OnInit {
   }
 
   editWeaver(id: number): void {
-    this.router.navigate(['/weaver/edit', id]);
+    this.router.navigate(['/process-house/edit', id]);
   }
 
   deleteWeaver(id: number): void {
-    if (confirm('Are you sure you want to delete this agent?')) {
-      this.processServce.deleteProcess(id).subscribe({
-        next: () => {
-          this.process = this.process.filter(process => process.id !== id);
-          this.filterProcess();  // reapply filter after delete
-          alert('Agent deleted successfully!');
-        },
-        error: (err) => {
-          console.error('Delete failed:', err);
-          alert('Failed to delete agent!');
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this process!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.processServce.deleteProcess(id).subscribe({
+          next: () => {
+            this.process = this.process.filter(process => process.id !== id);
+            this.filterProcess();  // reapply filter after delete
+            Swal.fire({
+              icon: 'success',
+              title: 'Deleted!',
+              text: 'Process has been deleted.',
+              confirmButtonText: 'OK'
+            });
+          },
+          error: (err) => {
+            console.error('Delete failed:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Failed!',
+              text: 'Failed to delete process!',
+              confirmButtonText: 'Try Again'
+            });
+          }
+        });
+      }
+    });
   }
 }
