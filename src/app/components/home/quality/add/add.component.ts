@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-Quality',
@@ -20,7 +21,7 @@ export class QualityAddComponent {
   title = 'Add Quality';
   qualityForm: FormGroup;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private router:Router) {
     this.qualityForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -44,7 +45,9 @@ export class QualityAddComponent {
           title: 'Success!',
           text: 'Quality created successfully!',
           confirmButtonText: 'OK'
-        });
+        }).then(()=>{
+          this.router.navigate(['/quality'])
+        });;
       },
       error: (err) => {
         console.error('Error creating Quality:', err);

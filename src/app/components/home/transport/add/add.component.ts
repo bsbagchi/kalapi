@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-transport',
@@ -20,7 +21,7 @@ export class TransportAddComponent {
   title = 'Add Transport';
   transportForm: FormGroup;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private router:Router) {
     this.transportForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -44,7 +45,9 @@ export class TransportAddComponent {
           title: 'Success!',
           text: 'Transport created successfully!',
           confirmButtonText: 'OK'
-        });
+        }).then(()=>{
+          this.router.navigate(['/transport'])
+        });;
       },
       error: (err) => {
         console.error('Error creating Transport:', err);

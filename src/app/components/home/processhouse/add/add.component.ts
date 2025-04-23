@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProcessService } from '../../../../services/api/process.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-process',
@@ -27,7 +28,7 @@ export class ProcessAddComponent {
     "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
   ];
 
-  constructor(private processService: ProcessService, private fb: FormBuilder) {
+  constructor(private processService: ProcessService, private fb: FormBuilder, private router:Router) {
     this.qualityForm = this.fb.group({
       name: [''],
       gstNo: [''],
@@ -74,7 +75,9 @@ export class ProcessAddComponent {
           title: 'Success!',
           text: 'Process House created successfully!',
           confirmButtonText: 'OK'
-        });
+        }).then(()=>{
+          this.router.navigate(['/process-house'])
+        });;
       },
       error: (err) => {
         console.error('Error creating Process House:', err);

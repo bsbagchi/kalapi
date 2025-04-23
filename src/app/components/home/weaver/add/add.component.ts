@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WeaverService } from '../../../../services/api/weaver.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-weaver',
@@ -27,7 +28,7 @@ export class WeaverAddComponent {
     "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
   ];
 
-  constructor(private weaverService: WeaverService, private fb: FormBuilder) {
+  constructor(private weaverService: WeaverService, private fb: FormBuilder, private router:Router) {
     this.qualityForm = this.fb.group({
       name: [''],
       gstNo: [''],
@@ -74,7 +75,9 @@ export class WeaverAddComponent {
           title: 'Success!',
           text: 'Weaver created successfully!',
           confirmButtonText: 'OK'
-        });
+        }).then(()=>{
+          this.router.navigate(['/weaver'])
+        });;
       },
       error: (err) => {
         console.error('Error creating Weaver:', err);
