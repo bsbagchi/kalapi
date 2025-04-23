@@ -88,6 +88,32 @@
                 </div>
             </div>
 
+            <!-- Process House Item -->
+            <div class="">
+                <div [routerLink]="['/process-house']" 
+                     [routerLinkActive]="'border-s-[6px] text-[--primary]'"
+                     class="group h-12 w-full text-sm hover:border-s-[6px] border-[--primary] text-[--blue-text] hover:text-[--primary] flex items-center cursor-pointer"
+                     [class.pl-12]="isExpanded" 
+                     [class.justify-center]="!isExpanded">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+                        <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"/>
+                    </svg>
+                    <span *ngIf="isExpanded" class="ml-3">Process House</span>
+                    <div *ngIf="!isExpanded" 
+                         class="opacity-0 group-hover:opacity-100 absolute left-full  ml-2 
+                                bg-black text-white px-3 py-2 text-sm rounded-md whitespace-nowrap pointer-events-none">
+                        <div class="absolute right-[90px] -rotate-90 w-0 h-0 
+                                  border-l-[10px] border-l-transparent 
+                                  border-r-[10px] border-r-transparent 
+                                  border-b-[20px] border-b-black">
+                        </div>
+                        Process House
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Transport Item -->
             <div class="">
                 <div [routerLink]="['/transport']" 

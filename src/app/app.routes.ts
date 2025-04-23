@@ -26,6 +26,10 @@ import { WeaverComponent } from './components/home/weaver/weaver.component';
 import { WeaverHomeComponent } from './components/home/weaver/home/weaverhome.component';
 import { WeaverAddComponent } from './components/home/weaver/add/add.component';
 import { WeaverEditComponent } from './components/home/weaver/edit/edit.component';
+import { ProcessComponent } from './components/home/processhouse/processhouse.component';
+import { ProcessHomeComponent } from './components/home/processhouse/home/processhome.component';
+import { ProcessAddComponent } from './components/home/processhouse/add/add.component';
+import { ProcessEditComponent } from './components/home/processhouse/edit/edit.component';
 
 export const routes: Routes = [
   {
@@ -40,6 +44,14 @@ export const routes: Routes = [
           {path:'',component:WeaverHomeComponent},
           {path:'add',component:WeaverAddComponent},
           {path:'edit/:id',component:WeaverEditComponent}
+        ]
+      },
+      {
+        path:'process-house',component: ProcessComponent,
+        children:[
+          {path:'',component:ProcessHomeComponent},
+          {path:'add',component:ProcessAddComponent},
+          {path:'edit/:id',component:ProcessEditComponent}
         ]
       },
       { 

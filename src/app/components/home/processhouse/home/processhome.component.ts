@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeaverService } from '../../../../services/api/weaver.service';
+import { ProcessService } from '../../../../services/api/process.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
@@ -9,14 +9,14 @@ import { PaginationConfig } from '../../../../interfaces/pagination.interface'; 
 @Component({
   selector: 'app-process-home',
   standalone: true,
-  templateUrl: './weaverhome.component.html',
+  templateUrl: './processhome.component.html',
   imports: [CommonModule, RouterModule, FormsModule, PaginationComponent],
 })
-export class WeaverHomeComponent implements OnInit {
-  title = 'Weaver Management';
-  weaver: any[] = [];
-  filteredWeaver: any[] = [];
-  paginatedWeaver: any[] = [];
+export class ProcessHomeComponent implements OnInit {
+  title = 'Process House';
+  process: any[] = [];
+  filteredProcess: any[] = [];
+  paginatedProcess: any[] = [];
   filterValue = '';
   errorMessage = '';
 
@@ -27,17 +27,17 @@ export class WeaverHomeComponent implements OnInit {
     totalItems: 0,
   };
 
-  constructor(private WeaverServce: WeaverService, private router: Router) {}
+  constructor(private processServce: ProcessService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchWeaver();
+    this.fetchProcess();
   }
 
-  fetchWeaver(): void {
-    this.WeaverServce.getWeaver().subscribe(
+  fetchProcess(): void {
+    this.processServce.getProcess().subscribe(
       (data) => {
-        this.weaver = data;
-        this.filteredWeaver = data;
+        this.process = data;
+        this.filteredProcess = data;
         this.setupPagination(data);
       },
       (error) => {
@@ -50,31 +50,31 @@ export class WeaverHomeComponent implements OnInit {
   setupPagination(data: any[]): void {
     this.paginationConfig.totalItems = data.length;
     this.paginationConfig.totalPages = Math.ceil(data.length / this.paginationConfig.itemsPerPage);
-    this.paginateAgents();
+    this.paginateProcess();
   }
 
-  paginateAgents(): void {
+  paginateProcess(): void {
     const start = (this.paginationConfig.currentPage - 1) * this.paginationConfig.itemsPerPage;
     const end = start + this.paginationConfig.itemsPerPage;
-    this.paginatedWeaver = this.filteredWeaver.slice(start, end);
+    this.paginatedProcess = this.filteredProcess.slice(start, end);
   }
 
   onPageChange(page: number): void {
     this.paginationConfig.currentPage = page;
-    this.paginateAgents();
+    this.paginateProcess();
   }
 
-  filterWeaver(): void {
+  filterProcess(): void {
     if (!this.filterValue.trim()) {
-      this.filteredWeaver = this.weaver;
+      this.filteredProcess = this.process;
     } else {
       const lower = this.filterValue.toLowerCase();
-      this.filteredWeaver = this.weaver.filter(weaver =>
-        weaver.name.toLowerCase().includes(lower) || weaver.remarks.toLowerCase().includes(lower)
+      this.filteredProcess = this.process.filter(process =>
+        process.name.toLowerCase().includes(lower) || process.remarks.toLowerCase().includes(lower)
       );
     }
 
-    this.setupPagination(this.filteredWeaver);
+    this.setupPagination(this.filteredProcess);
   }
 
   editWeaver(id: number): void {
@@ -83,10 +83,10 @@ export class WeaverHomeComponent implements OnInit {
 
   deleteWeaver(id: number): void {
     if (confirm('Are you sure you want to delete this agent?')) {
-      this.WeaverServce.deleteWeaver(id).subscribe({
+      this.processServce.deleteProcess(id).subscribe({
         next: () => {
-          this.weaver = this.weaver.filter(weaver => weaver.id !== id);
-          this.filterWeaver();  // reapply filter after delete
+          this.process = this.process.filter(process => process.id !== id);
+          this.filterProcess();  // reapply filter after delete
           alert('Agent deleted successfully!');
         },
         error: (err) => {
