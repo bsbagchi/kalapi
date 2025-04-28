@@ -19,13 +19,55 @@ import { Router } from '@angular/router';
 export class AgentAddComponent {
   title = 'Add Agent';
   agentForm: FormGroup;
+  showpanmodal=false;
+  pandata: string[] = []; // Array to store PAN numbers
+  newPanValue: string = ''; // Holds the value from the input field
+  editIndex: number = -1; // Track if we're in edit mode
 
+  // Add new PAN to the array
+  addPanData(): void {
+    if (this.newPanValue && this.newPanValue.trim() !== '') {
+      if (this.editIndex >= 0) {
+        // Update existing entry if in edit mode
+        this.pandata[this.editIndex] = this.newPanValue;
+        this.editIndex = -1;
+      } else {
+        // Add new entry
+        this.pandata.push(this.newPanValue);
+      }
+      
+      // Reset the input field
+      this.newPanValue = '';
+    }
+  }
+
+  // Put PAN data in edit mode
+  editPanData(index: number): void {
+    this.newPanValue = this.pandata[index];
+    this.editIndex = index;
+  }
+
+  // Delete PAN data
+  deletePanData(index: number): void {
+    this.pandata.splice(index, 1);
+    
+    // If deleting the item that's being edited, reset edit mode
+    if (this.editIndex === index) {
+      this.editIndex = -1;
+      this.newPanValue = '';
+    } else if (this.editIndex > index) {
+      // Adjust editIndex if deleting an item before the one being edited
+      this.editIndex--;
+    }
+  }
   constructor(private fb: FormBuilder, private agentService: AgentService, private router:Router) {
     this.agentForm = this.fb.group({
       name: [''],
       remarks: ['']
     });
   }
+
+  
 
   onSubmit(): void {
     const formData = this.agentForm.value;
