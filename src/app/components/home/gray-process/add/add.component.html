@@ -1,0 +1,263 @@
+<form [formGroup]="agentForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
+  <div class="bg-white w-full rounded-3xl shadow p-[2%]">
+    <!-- Header section -->
+    <div class="flex justify-between h-12 mb-4">
+      <h1 class="text-[--blue-text] text-lg font-bold">Create Gray Process</h1>
+      <div class="flex items-center gap-2">
+        <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">
+          Save as Draft
+        </button>
+        <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50">
+          Save and Print
+        </button>
+      </div>
+    </div>
+
+    <!-- Form fields -->
+    <div class="grid md:grid-cols-2 pb-5 gap-5 md:gap-10">
+      <div class="w-full">
+        <div class="py-2">Invoice No</div>
+        <input formControlName="invoiceNo" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text">
+      </div>
+      <div class="w-full">
+        <div class="py-2">Invoice Date</div>
+        <input formControlName="invoiceDate" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="date">
+      </div>
+      <div class="w-full">
+        <div class="py-2">Weaver</div>
+        <select formControlName="weaver" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]">
+          <option value="">Select weaver</option>
+          <option *ngFor="let weaver of weavers" [value]="weaver.id">{{ weaver.name }}</option>
+        </select>
+      </div>
+      <div class="w-full">
+        <div class="py-2">Lot No</div>
+        <input formControlName="lotNo" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text">
+      </div>
+      <div class="w-full">
+        <div class="py-2">Process House</div>
+        <div class="flex gap-2">
+          <select formControlName="processHouse" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]">
+            <option value="">Select Process House</option>
+            <option *ngFor="let house of processHouses" [value]="house.id">{{ house.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="w-full">
+        <div class="py-2">Cloth Quality</div>
+        <select formControlName="clothQuality" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]">
+          <option value="">Select Cloth Quality</option>
+          <option *ngFor="let quality of clothQualities" [value]="quality.id">{{ quality.name }}</option>
+        </select>
+      </div>
+      <div class="w-full">
+        <div class="py-2">Remarks</div>
+        <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text">
+      </div>
+    </div>
+    
+    <!-- Product details section with Add button -->
+    <div class="flex justify-between items-center h-12 mb-4">
+      <h1 class="text-[--blue-text] text-lg font-bold">Product details</h1>
+      <button 
+        type="button" 
+        (click)="showProductForm = true"
+        class="bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline flex items-center"
+      >
+        <span class="mr-1">+</span> Add
+      </button>
+    </div>
+    
+    <!-- Products table with improved styling -->
+    <div *ngIf="products.length > 0" class="overflow-x-auto mb-6">
+      <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bale</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Taka</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meter</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rate</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Discount</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">GST</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+            <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <tr *ngFor="let product of products; let i = index" class="hover:bg-gray-50">
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <div class="font-medium">{{ product.name }}</div>
+              <div class="text-xs text-blue-500 mt-1">+ Add Description</div>
+            </td>
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <input 
+                type="number" 
+                [(ngModel)]="product.bale" 
+                [ngModelOptions]="{standalone: true}"
+                (input)="calculateTotals()"
+                class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[--primary]"
+              >
+            </td>
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <input 
+                type="number" 
+                [(ngModel)]="product.taka" 
+                [ngModelOptions]="{standalone: true}"
+                (input)="calculateTotals()"
+                class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[--primary]"
+              >
+            </td>
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <input 
+                type="number" 
+                [(ngModel)]="product.meter" 
+                [ngModelOptions]="{standalone: true}"
+                (input)="calculateTotals()"
+                class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[--primary]"
+              >
+            </td>
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <input 
+                type="number" 
+                [(ngModel)]="product.rate" 
+                [ngModelOptions]="{standalone: true}"
+                (input)="calculateTotals()"
+                class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[--primary]"
+              >
+              <div class="text-xs text-green-600 mt-1">after disc. ₹{{ (product.rate * (1 - product.discount/100)).toFixed(2) }}</div>
+            </td>
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <input 
+                type="number" 
+                [(ngModel)]="product.discount" 
+                [ngModelOptions]="{standalone: true}"
+                (input)="calculateTotals()"
+                class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[--primary]"
+              >
+              <div class="text-xs text-gray-500 mt-1">%</div>
+            </td>
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <input 
+                type="number" 
+                [(ngModel)]="product.gst" 
+                [ngModelOptions]="{standalone: true}"
+                (input)="calculateTotals()"
+                class="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[--primary]"
+              >
+              <div class="text-xs text-gray-500 mt-1">%</div>
+            </td>
+            <td class="py-3 px-4 text-sm text-gray-900 font-medium">₹{{ product.amount.toFixed(2) }}</td>
+            <td class="py-3 px-4 text-sm text-gray-900">
+              <button type="button" (click)="removeProduct(i)" class="text-red-600 hover:text-red-900">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot class="bg-gray-50">
+          <tr>
+            <td colspan="7" class="py-3 px-4 text-right text-sm font-medium text-gray-900">Total Amount:</td>
+            <td class="py-3 px-4 text-sm font-bold text-gray-900">₹{{ totalAmount.toFixed(2) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="7" class="py-3 px-4 text-right text-sm font-medium text-gray-900">Total GST:</td>
+            <td class="py-3 px-4 text-sm font-bold text-gray-900">₹{{ totalGST.toFixed(2) }}</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="7" class="py-3 px-4 text-right text-sm font-medium text-gray-900">Grand Total:</td>
+            <td class="py-3 px-4 text-sm font-bold text-gray-900">₹{{ grandTotal.toFixed(2) }}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    
+    <!-- Apply discount to all items -->
+    <div *ngIf="products.length > 0" class="flex justify-between items-center mb-4 bg-gray-50 p-4 rounded-lg">
+      <div class="flex items-center">
+        <span class="mr-2">Apply discount(%) to all items?</span>
+        <div class="relative">
+          <input 
+            type="number" 
+            [(ngModel)]="globalDiscount" 
+            [ngModelOptions]="{standalone: true}"
+            (input)="applyGlobalDiscount()"
+            class="w-24 border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-1 focus:ring-[--primary]"
+            placeholder="0"
+          >
+        </div>
+      </div>
+      <div class="text-sm text-gray-600">
+        Items: {{ products.length }}, Qty: {{ totalQuantity }}
+      </div>
+    </div>
+    
+    <div class="flex justify-end gap-2 mt-6">
+      <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/agent']">
+        Cancel
+      </button>
+      <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">
+        Submit
+      </button>
+    </div>
+  </div>
+  
+  <!-- Product form modal -->
+  <div *ngIf="showProductForm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-4xl">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-[--blue-text]">Add Product</h2>
+        <button type="button" (click)="showProductForm = false" class="text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      
+      <div class="grid md:grid-cols-7 pb-5 gap-2">
+        <div class="w-full">
+          <div class="py-2">Product Name</div>
+          <input [(ngModel)]="newProduct.name" [ngModelOptions]="{standalone: true}" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text">
+        </div>
+        <div class="w-full">
+          <div class="py-2">Bale</div>
+          <input [(ngModel)]="newProduct.bale" [ngModelOptions]="{standalone: true}" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number">
+        </div>
+        <div class="w-full">
+          <div class="py-2">Taka</div>
+          <input [(ngModel)]="newProduct.taka" [ngModelOptions]="{standalone: true}" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number">
+        </div>
+        <div class="w-full">
+          <div class="py-2">Meter</div>
+          <input [(ngModel)]="newProduct.meter" [ngModelOptions]="{standalone: true}" (input)="calculateProductTotal()" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number">
+        </div>
+        <div class="w-full">
+          <div class="py-2">Rate</div>
+          <input [(ngModel)]="newProduct.rate" [ngModelOptions]="{standalone: true}" (input)="calculateProductTotal()" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number">
+        </div>
+        <div class="w-full">
+          <div class="py-2">Discount</div>
+          <input [(ngModel)]="newProduct.discount" [ngModelOptions]="{standalone: true}" (input)="calculateProductTotal()" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number">
+        </div>
+        <div class="w-full">
+          <div class="py-2">GST</div>
+          <input [(ngModel)]="newProduct.gst" [ngModelOptions]="{standalone: true}" (input)="calculateProductTotal()" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number">
+        </div>
+      </div>
+      
+      <div class="flex justify-end gap-2 mt-4">
+        <button type="button" (click)="showProductForm = false" class="h-10 w-24 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">
+          Cancel
+        </button>
+        <button type="button" (click)="addProduct()" class="h-10 w-24 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

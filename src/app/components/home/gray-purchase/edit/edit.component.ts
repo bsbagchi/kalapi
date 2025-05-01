@@ -17,8 +17,8 @@ import Swal from 'sweetalert2';
   ],
   templateUrl: './edit.component.html',
 })
-export class AgentEditComponent implements OnInit {
-  title = 'Update Agent';
+export class GrayPurchaseEditComponent implements OnInit {
+  title = 'Update Purchase';
   agentForm: FormGroup;
   agentId!: number;
 

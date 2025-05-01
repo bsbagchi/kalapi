@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-edit-agent',
+  selector: 'app-edit-process',
   standalone: true,
   imports: [
     CommonModule,
@@ -17,8 +17,8 @@ import Swal from 'sweetalert2';
   ],
   templateUrl: './edit.component.html',
 })
-export class AgentEditComponent implements OnInit {
-  title = 'Update Agent';
+export class GrayProcessEditComponent implements OnInit {
+  title = 'Update Gray Process';
   agentForm: FormGroup;
   agentId!: number;
 

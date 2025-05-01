@@ -30,6 +30,14 @@ import { ProcessComponent } from './components/home/processhouse/processhouse.co
 import { ProcessHomeComponent } from './components/home/processhouse/home/processhome.component';
 import { ProcessAddComponent } from './components/home/processhouse/add/add.component';
 import { ProcessEditComponent } from './components/home/processhouse/edit/edit.component';
+import { GrayPurchaseComponent } from './components/home/gray-purchase/purchase.component';
+import { GrayProcessComponent } from './components/home/gray-process/process.component';
+import { GrayProcessHomeComponent } from './components/home/gray-process/home/processhome.component';
+import { GrayProcessEditComponent } from './components/home/gray-process/edit/edit.component';
+import { GrayProcessAddComponent } from './components/home/gray-process/add/add.component';
+import { GrayPurchaseHomeComponent } from './components/home/gray-purchase/home/purchasehome.component';
+import { GrayPurchaseAddComponent } from './components/home/gray-purchase/add/add.component';
+import { GrayPurchaseEditComponent } from './components/home/gray-purchase/edit/edit.component';
 
 export const routes: Routes = [
   {
@@ -46,14 +54,6 @@ export const routes: Routes = [
           {path:'edit/:id',component:WeaverEditComponent}
         ]
       },
-      {
-        path:'process-house',component: ProcessComponent,
-        children:[
-          {path:'',component:ProcessHomeComponent},
-          {path:'add',component:ProcessAddComponent},
-          {path:'edit/:id',component:ProcessEditComponent}
-        ]
-      },
       { 
         path: 'agent', 
         component: AgentComponent,
@@ -63,6 +63,15 @@ export const routes: Routes = [
           {path:'edit/:id',component:AgentEditComponent}
         ]
       },
+      {
+        path:'process-house',component: ProcessComponent,
+        children:[
+          {path:'',component:ProcessHomeComponent},
+          {path:'add',component:ProcessAddComponent},
+          {path:'edit/:id',component:ProcessEditComponent}
+        ]
+      },
+     
       { path: 'transport', component: TransportComponent,
         children: [
           { path: '', component: TransportHomeComponent },
@@ -81,6 +90,23 @@ export const routes: Routes = [
        },
       { path: 'colors', component: ColorComponent },
       { path: 'colour-master', component: ColormasterComponent },
+      //  Gray
+      {path:'gray-purchase',component:GrayPurchaseComponent,
+        children:[
+          {path:"",component:GrayPurchaseHomeComponent},
+          {path:"add",component:GrayPurchaseAddComponent},
+          {path:"edit/:id",component:GrayPurchaseEditComponent}
+        ]
+      },
+      {path:'gray-process',component:GrayProcessComponent,
+        children:[
+          {path:"",component:GrayProcessHomeComponent},
+          {path:"edit/:id",component:GrayProcessEditComponent},
+          {path:"add",component:GrayProcessAddComponent}
+        ]
+      },
+
+
       { path: 'customers', component: CustomersComponent },
       { path: 'designs', component: DesignComponent },
       { path: 'printing', component: PrintingComponent },
