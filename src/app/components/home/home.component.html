@@ -9,22 +9,22 @@
   <!-- Sidebar -->
   <aside 
     [ngClass]="{
-      'translate-x-0 w-56 md:w-60 fixed overflow-y-auto': (isSidebarOpen$ | async) ?? true,
-      '-translate-x-full lg:translate-x-0 lg:w-16': !((isSidebarOpen$ | async) ?? true)
+      'translate-x-0 w-60 fixed overflow-y-auto': (isSidebarOpen$ | async) ?? true,
+      '-translate-x-full max-lg:fixed lg:translate-x-0 lg:w-16': !((isSidebarOpen$ | async) ?? true)
     }"
    
-    class=" top-0 left-0 z-30 h-screen transform transition-all duration-300 ease-in-out 
+    class=" top-0 left-0 z-30   h-screen transform transition-all duration-300 ease-in-out 
            bg-white ">
     <app-sidebar [isExpanded]="(isSidebarOpen$ | async) ?? true || !isDesktop"></app-sidebar>
   </aside>
 
   <!-- Main Content -->
   <main [ngClass]="{
-    'lg:ml-60 md:w-[calc(100%-15rem)] min-h-[90vh]': (isSidebarOpen$ | async) ?? true,
+    'lg:ml-60  md:w-[calc(100%-15rem)] min-h-[90vh]': (isSidebarOpen$ | async) ?? true,
 
   }" 
-    class="flex-1  transition-all duration-300 ease-in-out w-full">
-    <div class="h-full">
+    class=" transition-all duration-300 ease-in-out w-full">
+    <div class="h-full ">
       <router-outlet></router-outlet>
     </div>
     <footer class="px-4 md:px-8 py-6  ">
