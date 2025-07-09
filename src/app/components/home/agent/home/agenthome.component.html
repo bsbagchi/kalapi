@@ -37,33 +37,41 @@
             <tr>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Name</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Remarks</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Address</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Mobile Number</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Brokage</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Brokage %</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Action</th>
             </tr>
           </thead>
-
           <tbody *ngIf="paginatedAgents.length > 0; else noData">
             <tr *ngFor="let agent of paginatedAgents" class="hover:bg-gray-50">
               <td class="py-1 px-2 text-blue-600 border">{{ agent.name }}</td>
               <td class="py-1 px-2 border">{{ agent.remarks }}</td>
+              <td class="py-1 px-2 border">{{ agent.address }}</td>
+              <td class="py-1 px-2 border">{{ agent.mobileNumber }}</td>
+              <td class="py-1 px-2 border">{{ agent.brokage }}</td>
+              <td class="py-1 px-2 border">{{ agent.brokagePercentage }}</td>
               <td class="py-1 px-2 border">
                 <button 
                   (click)="editAgent(agent.id)" 
                   class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg">
                   <img src="/edit.svg" alt="Edit" />
                 </button>
-                  <!-- <button 
+                <!-- Uncomment if you want delete button -->
+                <!--
+                <button 
                   (click)="deleteAgent(agent.id)" 
                   class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg">
                   delete
-                </button> -->
+                </button>
+                -->
               </td>
             </tr>
           </tbody>
-
-          <!-- No Data Template -->
           <ng-template #noData>
             <tr>
-              <td colspan="3">
+              <td colspan="7">
                 <div class="flex justify-center items-center h-48">
                   <p class="text-gray-500 text-lg">No agents found.</p>
                 </div>

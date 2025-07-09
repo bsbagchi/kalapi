@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
     ReactiveFormsModule
   ],
   templateUrl: './edit.component.html',
+  providers: [FormBuilder] // <-- Add this line
 })
 export class AgentEditComponent implements OnInit {
   title = 'Update Agent';
@@ -25,11 +26,15 @@ export class AgentEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private agentService: AgentService // ✅ inject the service
+    private agentService: AgentService
   ) {
     this.agentForm = this.fb.group({
       name: [''],
-      remarks: ['']
+      remarks: [''],
+      address: [''],
+      mobileNumber: [''],
+      brokage: [''],
+      brokagePercentage: ['']
     });
   }
 
@@ -40,7 +45,11 @@ export class AgentEditComponent implements OnInit {
       next: (data) => {
         this.agentForm.patchValue({
           name: data.name,
-          remarks: data.remarks
+          remarks: data.remarks,
+          address: data.address,
+          mobileNumber: data.mobileNumber,
+          brokage: data.brokage,
+          brokagePercentage: data.brokagePercentage
         });
       },
       error: (err) => {
@@ -65,6 +74,10 @@ export class AgentEditComponent implements OnInit {
       customerId: localStorage.getItem('userId'),
       name: this.agentForm.value.name,
       remarks: this.agentForm.value.remarks,
+      address: this.agentForm.value.address,
+      mobileNumber: this.agentForm.value.mobileNumber,
+      brokage: this.agentForm.value.brokage,
+      brokagePercentage: this.agentForm.value.brokagePercentage
     };
 
     this.agentService.updateAgent(this.agentId, payload).subscribe({

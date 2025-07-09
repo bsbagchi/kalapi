@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AgentService {
-  private apiUrl = 'http://www.kalapiprint.somee.com/api/Agent';
+  private apiUrl = 'https://textileerp-001-site1.stempurl.com/api/Agent';
 
   constructor(private http: HttpClient) {}
 

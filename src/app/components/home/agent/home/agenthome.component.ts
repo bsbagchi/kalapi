@@ -37,9 +37,10 @@ export class AgentHomeComponent implements OnInit {
   fetchAgents(): void {
     this.AgentService.getAgents().subscribe(
       (data) => {
-        this.agents = data;
-        this.filteredAgents = data;
-        this.setupPagination(data);
+        // Map agents to exclude createdDate and updatedDate
+        this.agents = data.map(({ createdDate, updatedDate, ...rest }) => ({ ...rest }));
+        this.filteredAgents = this.agents;
+        this.setupPagination(this.agents);
       },
       (error) => {
         this.errorMessage = 'Failed to fetch agents';
