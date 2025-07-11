@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'https://textileerp-001-site1.stempurl.com/api/Auth/login';  // Replace with your actual login API endpoint
+  private apiUrl = 'https://textileerp-001-site1.stempurl.com/api/Auth/login';  
 
   constructor(private http: HttpClient) {}
 

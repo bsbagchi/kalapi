@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from './api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeaverService {
-  private apiUrl = 'http://www.kalapiprint.somee.com/api/Weaver'; // Replace with your actual API endpoint
+  private apiUrl = `${API_BASE_URL}/api/Weaver`;
 
   constructor(private http: HttpClient) {}
 

@@ -1,0 +1,1 @@
+export const API_BASE_URL = 'https://textileerp-001-site1.stempurl.com'; 
