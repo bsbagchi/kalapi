@@ -55,7 +55,7 @@
               <td class="py-1 px-2 border">{{ agent.remarks }}</td>
               <td class="py-1 px-2 border">{{ agent.address }}</td>
               <td class="py-1 px-2 border">{{ agent.mobileNumber }}</td>
-              <td class="py-1 px-2 border">{{ agent.brokage }}</td>
+              <td class="py-1 px-2 border">{{ agent.brokage === 0 ? 'Taxable amount' : 'Bill amount' }}</td>
               <td class="py-1 px-2 border">{{ agent.brokagePercentage }}</td>
               <td class="py-1 px-2 border">{{ agent.selectedPAN }}</td>
               <td class="py-1 px-2 border">
