@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
 import { PaginationConfig } from '../../../../interfaces/pagination.interface';  // 👈 Import
 import Swal from 'sweetalert2';
+import { Agent } from '../agent.interface';
 
 @Component({
   selector: 'app-agent-home',
@@ -15,9 +16,9 @@ import Swal from 'sweetalert2';
 })
 export class AgentHomeComponent implements OnInit {
   title = 'Agent Management';
-  agents: any[] = [];
-  filteredAgents: any[] = [];
-  paginatedAgents: any[] = [];
+  agents: Agent[] = [];
+  filteredAgents: Agent[] = [];
+  paginatedAgents: Agent[] = [];
   filterValue = '';
   errorMessage = '';
 
@@ -37,8 +38,8 @@ export class AgentHomeComponent implements OnInit {
   fetchAgents(): void {
     this.AgentService.getAgents().subscribe(
       (data) => {
-        // Map agents to exclude createdDate and updatedDate
-        this.agents = data.map(({ createdDate, updatedDate, ...rest }) => ({ ...rest }));
+        // Map agents to exclude createdDate, updatedDate, and paNs
+        this.agents = data.map(({ createdDate, updatedDate, paNs, ...rest }: any) => ({ ...rest }));
         this.filteredAgents = this.agents;
         this.setupPagination(this.agents);
       },
@@ -79,10 +80,13 @@ export class AgentHomeComponent implements OnInit {
     } else {
       const lower = this.filterValue.toLowerCase();
       this.filteredAgents = this.agents.filter(agent =>
-        agent.name.toLowerCase().includes(lower) || agent.remarks.toLowerCase().includes(lower)
+        agent.name.toLowerCase().includes(lower) ||
+        agent.remarks.toLowerCase().includes(lower) ||
+        agent.address.toLowerCase().includes(lower) ||
+        agent.mobileNumber.toLowerCase().includes(lower) ||
+        agent.selectedPAN.toLowerCase().includes(lower)
       );
     }
-
     this.setupPagination(this.filteredAgents);
   }
 

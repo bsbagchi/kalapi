@@ -63,7 +63,12 @@ export class AgentAddComponent {
   constructor(private fb: FormBuilder, private agentService: AgentService, private router:Router) {
     this.agentForm = this.fb.group({
       name: [''],
-      remarks: ['']
+      remarks: [''],
+      address: [''],
+      mobileNumber: [''],
+      brokage: [''],
+      brokagePercentage: [''],
+      selectedPAN: ['']
     });
   }
 
@@ -74,9 +79,15 @@ export class AgentAddComponent {
     const userId = localStorage.getItem('userId');
 
     const payload = {
-      ...formData,
       customerId: userId || 0,
-
+      name: formData.name,
+      remarks: formData.remarks,
+      address: formData.address,
+      mobileNumber: formData.mobileNumber,
+      brokage: Number(formData.brokage),
+      brokagePercentage: Number(formData.brokagePercentage),
+      selectedPAN: formData.selectedPAN,
+      paNs: this.pandata.join(',')
     };
 
     this.agentService.createAgent(payload).subscribe({

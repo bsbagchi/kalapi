@@ -35,23 +35,29 @@
         <table class="w-full border-collapse border">
           <thead>
             <tr>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">ID</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Customer ID</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Name</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Remarks</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Address</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Mobile Number</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Brokage</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Brokage %</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Selected PAN</th>
               <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Action</th>
             </tr>
           </thead>
           <tbody *ngIf="paginatedAgents.length > 0; else noData">
             <tr *ngFor="let agent of paginatedAgents" class="hover:bg-gray-50">
+              <td class="py-1 px-2 border">{{ agent.id }}</td>
+              <td class="py-1 px-2 border">{{ agent.customerId }}</td>
               <td class="py-1 px-2 text-blue-600 border">{{ agent.name }}</td>
               <td class="py-1 px-2 border">{{ agent.remarks }}</td>
               <td class="py-1 px-2 border">{{ agent.address }}</td>
               <td class="py-1 px-2 border">{{ agent.mobileNumber }}</td>
               <td class="py-1 px-2 border">{{ agent.brokage }}</td>
               <td class="py-1 px-2 border">{{ agent.brokagePercentage }}</td>
+              <td class="py-1 px-2 border">{{ agent.selectedPAN }}</td>
               <td class="py-1 px-2 border">
                 <button 
                   (click)="editAgent(agent.id)" 
@@ -71,7 +77,7 @@
           </tbody>
           <ng-template #noData>
             <tr>
-              <td colspan="7">
+              <td colspan="10">
                 <div class="flex justify-center items-center h-48">
                   <p class="text-gray-500 text-lg">No agents found.</p>
                 </div>

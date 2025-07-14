@@ -37,10 +37,9 @@
         <!-- div -->
         <div class="w-full ">
           <div class="py-2">Brokage</div>
-          <select  class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" >
-            <option disabled selected value="">Select option</option>
-            <option value="">Taxable amount</option>
-            <option value="">Bill amount</option>
+          <select formControlName="brokage" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]">
+            <option [ngValue]="0">Taxable amount</option>
+            <option [ngValue]="1">Bill amount</option>
           </select>
         </div>
         <!-- div -->
