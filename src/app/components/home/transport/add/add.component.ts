@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { TransportService } from '../../../../services/api/transport.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,7 @@ export class TransportAddComponent {
   title = 'Add Transport';
   transportForm: FormGroup;
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private router:Router) {
+  constructor(private fb: FormBuilder, private router: Router, private transportService: TransportService) {
     this.transportForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -37,7 +37,7 @@ export class TransportAddComponent {
       customerId: userId  // Add customerId key to payload
     };
 
-    this.http.post('http://www.kalapiprint.somee.com/api/Transport', payload).subscribe({
+    this.transportService.createTransport(payload).subscribe({
       next: (res) => {
         console.log('Transport created successfully:', res);
         Swal.fire({

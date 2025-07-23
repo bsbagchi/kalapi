@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { QualityService } from '../../../../services/api/quality.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -23,7 +23,7 @@ export class QualityEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
+    private qualityService: QualityService,
     private fb: FormBuilder
   ) {
     this.qualityForm = this.fb.group({
@@ -35,7 +35,7 @@ export class QualityEditComponent implements OnInit {
   ngOnInit(): void {
     this.qualityId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.http.get<any>(`http://www.kalapiprint.somee.com/api/ClothQuality/${this.qualityId}`).subscribe({
+    this.qualityService.getQualityById(this.qualityId).subscribe({
       next: (data) => {
         // Patch the form with existing values
         this.qualityForm.patchValue({
@@ -66,7 +66,7 @@ export class QualityEditComponent implements OnInit {
       updatedDate: now
     };
 
-    this.http.put(`http://www.kalapiprint.somee.com/api/ClothQuality/${this.qualityId}`, payload).subscribe({
+    this.qualityService.updateQuality(this.qualityId, payload).subscribe({
       next: (res) => {
         console.log('Quality updated successfully:', res);
         Swal.fire({

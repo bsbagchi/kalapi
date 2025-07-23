@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from './api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransportService {
-  private apiUrl = 'http://www.kalapiprint.somee.com/api/Transport';
+  private apiUrl = `${API_BASE_URL}/api/Transport`;
 
   constructor(private http: HttpClient) {}
 
@@ -36,5 +37,12 @@ export class TransportService {
    */
   updateTransport(id: number, payload: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, payload);
+  }
+
+  /**
+   * Create a new Transport
+   */
+  createTransport(payload: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, payload);
   }
 }

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from './api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgentService {
-  private apiUrl = 'https://textileerp-001-site1.stempurl.com/api/Agent';
+  private apiUrl = `${API_BASE_URL}/api/Agent`;
 
   constructor(private http: HttpClient) {}
 

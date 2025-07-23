@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { QualityService } from '../../../../services/api/quality.service';
 
 @Component({
   selector: 'app-add-Quality',
@@ -21,7 +22,7 @@ export class QualityAddComponent {
   title = 'Add Quality';
   qualityForm: FormGroup;
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private router:Router) {
+  constructor(private fb: FormBuilder, private router: Router, private qualityService: QualityService) {
     this.qualityForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -37,8 +38,8 @@ export class QualityAddComponent {
       customerId: userId  // Add customerId key to payload
     };
 
-    this.http.post('http://www.kalapiprint.somee.com/api/ClothQuality', payload).subscribe({
-      next: (res) => {
+    this.qualityService.createQuality(payload).subscribe({
+      next: (res: any) => {
         console.log('Quality created successfully:', res);
         Swal.fire({
           icon: 'success',
@@ -47,9 +48,9 @@ export class QualityAddComponent {
           confirmButtonText: 'OK'
         }).then(()=>{
           this.router.navigate(['/quality'])
-        });;
+        });
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error creating Quality:', err);
         Swal.fire({
           icon: 'error',

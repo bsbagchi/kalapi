@@ -5,13 +5,15 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { routes } from './app.routes';
 
 // New imports
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';  // Updated import
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';  // Updated import
+import { ApiAuthInterceptor } from './services/api/api-auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withInterceptorsFromDi())  // Use the new provideHttpClient
+    provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: ApiAuthInterceptor, multi: true }
   ]
 };

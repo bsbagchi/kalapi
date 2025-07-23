@@ -23,12 +23,14 @@
         <div class="w-full  ">
           <div class="py-2">Pan No</div>
           <div class="flex gap-2">
-          <select formControlName="selectedPAN" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" id="selectedPAN">
-            <option value="">Selected</option>
-            <option *ngFor="let data of pandata" [value]="data">{{data}}</option>
+            <select formControlName="selectedPAN" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" id="selectedPAN">
+              <option value="">Selected</option>
+              <option *ngFor="let data of pandata" [value]="data">{{data}}</option>
             </select>
-          <button type="button" (click)="showpanmodal=true" class="h-[50px] rounded px-2 bg-[--primary] flex items-center">Add</button>
-        </div>
+            <button type="button" (click)="showpanmodal=true" class="bg-[--primary] hover:bg-black hover:text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:shadow-outline flex items-center h-[50px]">
+              <span class="text-2xl mr-1">+</span> Add
+            </button>
+          </div>
         </div>
         <div class="w-full ">
           <div class="py-2">Brokage</div>
@@ -52,36 +54,42 @@
       </div>
     </div>
   </form>
-  <div *ngIf="showpanmodal"  class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-200 w-[300px] h-[400px] rounded-md overflow-hidden">
-    <button (click)="showpanmodal=false" type="button" class="text-black font-semibold right-2 top-2 bg-[--primary] flex items-center justify-center absolute w-5 h-5 rounded-full">X</button>
-    <div class="w-full bg-[--primary] p-1 text-white font-semibold">
-      Pan details
+  <div *ngIf="showpanmodal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30">
+  <div class="bg-white w-[350px] max-w-full rounded-xl shadow-2xl p-0 overflow-hidden relative animate-fade-in">
+    <button (click)="showpanmodal=false" type="button" class="absolute top-3 right-3 text-gray-400 hover:text-[--primary] transition-colors w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 shadow">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="w-full bg-[--primary] p-4 text-white font-semibold text-lg rounded-t-xl flex items-center justify-between">
+      <span>PAN Details</span>
     </div>
-    <div class="p-2 flex justify-center">
+    <div class="p-4 space-y-4">
       <div class="flex gap-2">
         <input 
           [(ngModel)]="newPanValue" 
           type="text" 
-          class="border px-2 py-1 rounded"
+          class="border px-3 py-2 rounded w-full focus:ring-2 focus:ring-[--primary] outline-none"
           placeholder="Enter PAN number">
         <button 
           (click)="addPanData()" 
-          class="border bg-[--primary] text-white rounded px-2 py-1">
+          class="bg-[--primary] hover:bg-black text-white rounded px-4 py-2 font-semibold transition-colors">
           Add
         </button>
       </div>
-    </div>
-    <div class="px-2 max-h-[300px] overflow-y-auto">
-      <div *ngFor="let pan of pandata; let i = index" class="flex justify-between items-center bg-white p-2 mb-2 rounded shadow">
-        <div>{{pan}}</div>
-        <div class="flex gap-2">
-          <button (click)="editPanData(i)" class="text-blue-500 hover:underline">Edit</button>
-          <button (click)="deletePanData(i)" class="text-red-500 hover:underline">Delete</button>
+      <div class="max-h-48 overflow-y-auto divide-y divide-gray-100 bg-gray-50 rounded-md p-2">
+        <div *ngFor="let pan of pandata; let i = index" class="flex justify-between items-center py-2 px-1">
+          <div class="font-mono text-gray-700">{{pan}}</div>
+          <div class="flex gap-2">
+            <button (click)="editPanData(i)" class="text-blue-600 hover:underline font-medium">Edit</button>
+            <button (click)="deletePanData(i)" class="text-red-600 hover:underline font-medium">Delete</button>
+          </div>
         </div>
-      </div>
-      <div *ngIf="pandata.length === 0" class="text-center text-gray-500 mt-4">
-        No PAN data available
+        <div *ngIf="pandata.length === 0" class="text-center text-gray-400 py-4">
+          No PAN data available
+        </div>
       </div>
     </div>
   </div>
+</div>
   

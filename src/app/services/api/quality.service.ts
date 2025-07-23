@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from './api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QualityService {
-  private apiUrl = 'http://www.kalapiprint.somee.com/api/ClothQuality';
+  private apiUrl = `${API_BASE_URL}/api/ClothQuality`;
 
   constructor(private http: HttpClient) {}
 
@@ -36,5 +37,12 @@ export class QualityService {
    */
   updateQuality(id: number, payload: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, payload);
+  }
+
+  /**
+   * Create a new Quality
+   */
+  createQuality(payload: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, payload);
   }
 }
