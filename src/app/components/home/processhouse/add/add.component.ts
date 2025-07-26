@@ -95,6 +95,22 @@ export class ProcessAddComponent {
     })
   }
 
+  scrollToFirstInvalidField(): void {
+    const invalidFields = Object.keys(this.qualityForm.controls).filter(key => {
+      const control = this.qualityForm.get(key);
+      return control && control.invalid && control.touched && key !== 'remarks' && key !== 'coverAddress' && key !== 'fax';
+    });
+
+    if (invalidFields.length > 0) {
+      const firstInvalidField = invalidFields[0];
+      const element = document.getElementById(firstInvalidField);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.focus();
+      }
+    }
+  }
+
   openLongingModal() {
     this.showLongingModal = true
     this.longingForm.reset()
@@ -189,6 +205,9 @@ export class ProcessAddComponent {
           control.markAsTouched()
         }
       })
+      
+      // Auto scroll to first invalid field
+      this.scrollToFirstInvalidField()
       return
     }
 

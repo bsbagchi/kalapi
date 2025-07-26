@@ -110,6 +110,9 @@ export class AgentEditComponent implements OnInit {
           control.markAsTouched();
         }
       });
+      
+      // Auto scroll to first invalid field
+      this.scrollToFirstInvalidField();
       return;
     }
 
@@ -148,5 +151,21 @@ export class AgentEditComponent implements OnInit {
         });
       }
     });
+  }
+
+  scrollToFirstInvalidField(): void {
+    const invalidFields = Object.keys(this.agentForm.controls).filter(key => {
+      const control = this.agentForm.get(key);
+      return control && control.invalid && control.touched && key !== 'remarks';
+    });
+
+    if (invalidFields.length > 0) {
+      const firstInvalidField = invalidFields[0];
+      const element = document.getElementById(firstInvalidField);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.focus();
+      }
+    }
   }
 }
