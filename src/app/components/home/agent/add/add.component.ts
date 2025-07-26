@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -62,19 +62,37 @@ export class AgentAddComponent {
   }
   constructor(private fb: FormBuilder, private apiEngine: ApiEngineService, private router:Router) {
     this.agentForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       remarks: [''],
-      address: [''],
-      mobileNumber: [''],
-      brokage: [''],
-      brokagePercentage: [''],
-      selectedPAN: ['']
+      address: ['', [Validators.required, Validators.minLength(5)]],
+      mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      brokage: ['', [Validators.required, Validators.min(0)]],
+      brokagePercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      selectedPAN: ['', [Validators.required, Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]]
     });
   }
 
   
 
   onSubmit(): void {
+    if (this.agentForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.agentForm.controls).forEach((key) => {
+        const control = this.agentForm.get(key);
+        if (control && key !== 'remarks') {
+          control.markAsTouched();
+        }
+      });
+      
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Form',
+        text: 'Please fill all required fields correctly.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     const formData = this.agentForm.value;
     const userId = localStorage.getItem('userId');
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -30,31 +30,39 @@ export class WeaverAddComponent {
 
   constructor(private apiEngine: ApiEngineService, private fb: FormBuilder, private router:Router) {
     this.qualityForm = this.fb.group({
-      name: [''],
-      gstNo: [''],
-      panNo: [''],
-      gstState: [''],
-      address: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      gstNo: ['', [Validators.required, Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
+      panNo: ['', [Validators.required, Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
+      gstState: ['', [Validators.required]],
+      address: ['', [Validators.required, Validators.minLength(10)]],
       coverAddress: [''],
-      state: [''],
-      district: [''],
-      city: [''],
-      pinCode: [null],
-      phoneNoOffice: [null],
-      phoneNoResidant: [null],
-      mobileNo: [null],
+      state: ['', [Validators.required]],
+      district: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      pinCode: [null, [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      phoneNoOffice: [null, [Validators.pattern('^[0-9]{10}$')]],
+      phoneNoResidant: [null, [Validators.pattern('^[0-9]{10}$')]],
+      mobileNo: [null, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       fax: [null],
-      email: [''],
+      email: ['', [Validators.email]],
       remarks: [''],
     });
   }
 
   onSubmit() {
     if (this.qualityForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.qualityForm.controls).forEach((key) => {
+        const control = this.qualityForm.get(key);
+        if (control && key !== 'remarks' && key !== 'coverAddress' && key !== 'fax') {
+          control.markAsTouched();
+        }
+      });
+      
       Swal.fire({
         icon: 'warning',
         title: 'Invalid Form',
-        text: 'Please fill all required fields.',
+        text: 'Please fill all required fields correctly.',
         confirmButtonText: 'OK'
       });
       return;

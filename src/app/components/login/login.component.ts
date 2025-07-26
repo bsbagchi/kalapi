@@ -43,6 +43,9 @@ export class LoginComponent implements OnInit {
         Password: password,
       };
 
+      // Debug token status before login
+      this.apiEngine.debugTokenStatus();
+
       this.apiEngine.login(loginPayload).subscribe({
         next: (res) => {
           console.log('Login successful', res);
@@ -52,6 +55,9 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('username', username);
             localStorage.setItem('userId', res.userId || '');
           }
+
+          // Debug token status after login
+          this.apiEngine.debugTokenStatus();
 
           Swal.fire({
             icon: 'success',

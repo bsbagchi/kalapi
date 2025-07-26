@@ -5,8 +5,19 @@
       </div>
       <div class="grid md:grid-cols-2 pb-5 gap-5 md:gap-10">
         <div class="w-full ">
-          <div class="py-2">Name</div>
-          <input formControlName="name" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="name">
+          <div class="py-2">Name <span class="text-red-500">*</span></div>
+          <input 
+            formControlName="name" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="agentForm.get('name')?.invalid && agentForm.get('name')?.touched"
+            [class.border-2]="agentForm.get('name')?.invalid && agentForm.get('name')?.touched"
+            type="text" 
+            id="name"
+            autofocus>
+          <div *ngIf="agentForm.get('name')?.invalid && agentForm.get('name')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="agentForm.get('name')?.errors?.['required']">Name is required</span>
+            <span *ngIf="agentForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+          </div>
         </div>
         <div class="w-full ">
           <div class="py-2">Remarks</div>
@@ -14,39 +25,87 @@
         </div>  
         <!-- newly added -->
         <div class="w-full ">
-          <div class="py-2">Address</div>
-          <input  class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+          <div class="py-2">Address <span class="text-red-500">*</span></div>
+          <input 
+            formControlName="address"
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="agentForm.get('address')?.invalid && agentForm.get('address')?.touched"
+            [class.border-2]="agentForm.get('address')?.invalid && agentForm.get('address')?.touched"
+            type="text" 
+            id="address">
+          <div *ngIf="agentForm.get('address')?.invalid && agentForm.get('address')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="agentForm.get('address')?.errors?.['required']">Address is required</span>
+            <span *ngIf="agentForm.get('address')?.errors?.['minlength']">Address must be at least 5 characters</span>
+          </div>
         </div>
         <!-- div -->
         <div class="w-full ">
-          <div class="py-2">Mobile Number</div>
-          <input  class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+          <div class="py-2">Mobile Number <span class="text-red-500">*</span></div>
+          <input 
+            formControlName="mobileNumber"
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="agentForm.get('mobileNumber')?.invalid && agentForm.get('mobileNumber')?.touched"
+            [class.border-2]="agentForm.get('mobileNumber')?.invalid && agentForm.get('mobileNumber')?.touched"
+            type="text" 
+            id="mobileNumber">
+          <div *ngIf="agentForm.get('mobileNumber')?.invalid && agentForm.get('mobileNumber')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="agentForm.get('mobileNumber')?.errors?.['required']">Mobile number is required</span>
+            <span *ngIf="agentForm.get('mobileNumber')?.errors?.['pattern']">Please enter a valid 10-digit mobile number</span>
+          </div>
         </div>
         <!-- div -->
         <div class="w-full  ">
-          <div class="py-2">Pan No</div>
+          <div class="py-2">Pan No <span class="text-red-500">*</span></div>
           <div class="flex gap-2">
-            <select class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" id="remarks">
-              <option value="">Selected</option>
+            <select 
+              formControlName="selectedPAN"
+              class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+              [class.border-red-500]="agentForm.get('selectedPAN')?.invalid && agentForm.get('selectedPAN')?.touched"
+              [class.border-2]="agentForm.get('selectedPAN')?.invalid && agentForm.get('selectedPAN')?.touched"
+              id="selectedPAN">
+              <option value="">Select PAN</option>
               <option *ngFor="let data of pandata" [value]="data">{{data}}</option>
             </select>
             <button type="button" (click)="showpanmodal=true" class="bg-[--primary] hover:bg-black hover:text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:shadow-outline flex items-center h-[50px]">
               <span class="text-2xl mr-1">+</span> Add
             </button>
           </div>
+          <div *ngIf="agentForm.get('selectedPAN')?.invalid && agentForm.get('selectedPAN')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="agentForm.get('selectedPAN')?.errors?.['required']">PAN is required</span>
+            <span *ngIf="agentForm.get('selectedPAN')?.errors?.['pattern']">Please enter a valid PAN format</span>
+          </div>
         </div>
         <!-- div -->
         <div class="w-full ">
-          <div class="py-2">Brokage</div>
-          <select formControlName="brokage" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]">
+          <div class="py-2">Brokage <span class="text-red-500">*</span></div>
+          <select 
+            formControlName="brokage" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="agentForm.get('brokage')?.invalid && agentForm.get('brokage')?.touched"
+            [class.border-2]="agentForm.get('brokage')?.invalid && agentForm.get('brokage')?.touched">
+            <option value="">Select Brokage Type</option>
             <option [ngValue]="0">Taxable amount</option>
             <option [ngValue]="1">Bill amount</option>
           </select>
+          <div *ngIf="agentForm.get('brokage')?.invalid && agentForm.get('brokage')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="agentForm.get('brokage')?.errors?.['required']">Brokage type is required</span>
+          </div>
         </div>
         <!-- div -->
         <div class="w-full ">
-          <div class="py-2">Brokage Perccentage</div>
-          <input  class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" >
+          <div class="py-2">Brokage Percentage <span class="text-red-500">*</span></div>
+          <input 
+            formControlName="brokagePercentage"
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="agentForm.get('brokagePercentage')?.invalid && agentForm.get('brokagePercentage')?.touched"
+            [class.border-2]="agentForm.get('brokagePercentage')?.invalid && agentForm.get('brokagePercentage')?.touched"
+            type="number" 
+            id="brokagePercentage">
+          <div *ngIf="agentForm.get('brokagePercentage')?.invalid && agentForm.get('brokagePercentage')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="agentForm.get('brokagePercentage')?.errors?.['required']">Brokage percentage is required</span>
+            <span *ngIf="agentForm.get('brokagePercentage')?.errors?.['min']">Percentage must be at least 0</span>
+            <span *ngIf="agentForm.get('brokagePercentage')?.errors?.['max']">Percentage cannot exceed 100</span>
+          </div>
         </div>
       </div>
       <div class="flex justify-end gap-2">

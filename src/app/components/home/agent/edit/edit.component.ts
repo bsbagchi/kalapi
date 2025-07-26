@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
@@ -33,13 +33,13 @@ export class AgentEditComponent implements OnInit {
     private apiEngine: ApiEngineService
   ) {
     this.agentForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       remarks: [''],
-      address: [''],
-      mobileNumber: [''],
-      brokage: [''],
-      brokagePercentage: [''],
-      selectedPAN: ['']
+      address: ['', [Validators.required, Validators.minLength(5)]],
+      mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      brokage: ['', [Validators.required, Validators.min(0)]],
+      brokagePercentage: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      selectedPAN: ['', [Validators.required, Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]]
     });
   }
 
@@ -102,6 +102,24 @@ export class AgentEditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.agentForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.agentForm.controls).forEach((key) => {
+        const control = this.agentForm.get(key);
+        if (control && key !== 'remarks') {
+          control.markAsTouched();
+        }
+      });
+      
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Form',
+        text: 'Please fill all required fields correctly.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     const formData = this.agentForm.value;
     const payload = {
       customerId: localStorage.getItem('userId'),

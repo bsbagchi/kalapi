@@ -1,12 +1,23 @@
 <form [formGroup]="qualityForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
     <div class="bg-white w-full rounded-3xl shadow p-[2%]">
   <div class="flex justify-between h-12">
-    <h1 class="text-[--blue-text] text-lg font-bold">Create Agent</h1>
+    <h1 class="text-[--blue-text] text-lg font-bold">Edit Quality</h1>
   </div>
   <div class="md:flex pb-5 gap-10">
     <div class="w-full md:w-1/2">
-      <div class="py-2">Name</div>
-      <input formControlName="name" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="name">
+      <div class="py-2">Name <span class="text-red-500">*</span></div>
+      <input 
+        formControlName="name" 
+        class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+        [class.border-red-500]="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched"
+        [class.border-2]="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched"
+        type="text" 
+        id="name"
+        autofocus>
+      <div *ngIf="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched" class="text-red-500 text-sm mt-1">
+        <span *ngIf="qualityForm.get('name')?.errors?.['required']">Name is required</span>
+        <span *ngIf="qualityForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+      </div>
     </div>
     <div class="w-full md:w-1/2">
       <div class="py-2">Remarks</div>

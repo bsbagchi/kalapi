@@ -37,12 +37,29 @@ export class ApiEngineService {
    */
   private isTokenExpired(): boolean {
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) return true;
+    if (!token) {
+      console.log('No token found in localStorage');
+      return true;
+    }
 
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        console.log('Invalid token format (not a JWT)');
+        return true;
+      }
+      
+      const payload = JSON.parse(atob(parts[1]));
       const currentTime = Math.floor(Date.now() / 1000);
-      return payload.exp < currentTime;
+      const isExpired = payload.exp < currentTime;
+      
+      console.log('Token expiration check:', {
+        tokenExp: payload.exp,
+        currentTime: currentTime,
+        isExpired: isExpired
+      });
+      
+      return isExpired;
     } catch (error) {
       console.error('Error parsing token:', error);
       return true;
@@ -227,5 +244,30 @@ export class ApiEngineService {
   isAuthenticated(): boolean {
     const token = localStorage.getItem(TOKEN_KEY);
     return token ? !this.isTokenExpired() : false;
+  }
+
+  /**
+   * Debug method to check token status
+   */
+  debugTokenStatus(): void {
+    const token = localStorage.getItem(TOKEN_KEY);
+    console.log('=== Token Debug Info ===');
+    console.log('Token exists:', !!token);
+    console.log('Token value:', token);
+    console.log('Is expired:', this.isTokenExpired());
+    console.log('Is authenticated:', this.isAuthenticated());
+    
+    if (token) {
+      try {
+        const parts = token.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          console.log('Token payload:', payload);
+        }
+      } catch (error) {
+        console.error('Error parsing token for debug:', error);
+      }
+    }
+    console.log('========================');
   }
 } 

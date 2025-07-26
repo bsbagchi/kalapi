@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 // import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -24,12 +24,30 @@ export class QualityAddComponent {
 
   constructor(private fb: FormBuilder, private router: Router, private apiEngine: ApiEngineService) {
     this.qualityForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       remarks: ['']
     });
   }
 
   onSubmit() {
+    if (this.qualityForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.qualityForm.controls).forEach((key) => {
+        const control = this.qualityForm.get(key);
+        if (control && key !== 'remarks') {
+          control.markAsTouched();
+        }
+      });
+      
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Form',
+        text: 'Please fill all required fields correctly.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     const formData = this.qualityForm.value;
     const userId = localStorage.getItem('userId'); // get userId from localStorage
 

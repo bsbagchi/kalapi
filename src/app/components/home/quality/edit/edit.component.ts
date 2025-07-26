@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 
@@ -27,7 +27,7 @@ export class QualityEditComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.qualityForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       remarks: ['']
     });
   }
@@ -56,6 +56,24 @@ export class QualityEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.qualityForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.qualityForm.controls).forEach((key) => {
+        const control = this.qualityForm.get(key);
+        if (control && key !== 'remarks') {
+          control.markAsTouched();
+        }
+      });
+      
+      Swal.fire({
+        icon: 'warning',
+        title: 'Invalid Form',
+        text: 'Please fill all required fields correctly.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     const now = new Date().toISOString(); // for createdDate / updatedDate
     const payload = {
       id: this.qualityId,
