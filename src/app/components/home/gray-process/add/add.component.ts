@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { RouterModule } from "@angular/router"
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms"
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms"
 import { ApiEngineService } from "../../../../services/api/api-engine.service"
 import Swal from "sweetalert2"
 import { Router } from "@angular/router"
@@ -79,12 +79,12 @@ export class GrayProcessAddComponent implements OnInit {
     private sanitizer: DomSanitizer,
   ) {
     this.agentForm = this.fb.group({
-      invoiceNo: [""],
-      invoiceDate: [""],
-      weaver: [""],
-      lotNo: [""],
-      processHouse: [""],
-      clothQuality: [""],
+      invoiceNo: ["", [Validators.required, Validators.minLength(2)]],
+      invoiceDate: ["", [Validators.required]],
+      weaver: ["", [Validators.required]],
+      lotNo: ["", [Validators.required, Validators.minLength(2)]],
+      processHouse: ["", [Validators.required]],
+      clothQuality: ["", [Validators.required]],
       remarks: [""],
       billFile: [null], // Hidden form control for the file
     })
@@ -359,6 +359,17 @@ export class GrayProcessAddComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.agentForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.agentForm.controls).forEach((key) => {
+        const control = this.agentForm.get(key);
+        if (control && key !== 'remarks' && key !== 'billFile') {
+          control.markAsTouched();
+        }
+      });
+      return;
+    }
+
     if (this.products.length === 0) {
       Swal.fire({
         icon: "error",

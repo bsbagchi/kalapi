@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -33,22 +33,22 @@ import Swal from 'sweetalert2';
     private apiEngine: ApiEngineService // ✅ inject the service
   ) {
       this.weaverForm = this.fb.group({
-        name: [''],
-      gstNo: [''],
-      panNo: [''],
-      gstState: [''],
-      address: [''],
-      coverAddress: [''],
-      state: [''],
-      district: [''],
-      city: [''],
-      pinCode: [null],
-      phoneNoOffice: [null],
-      phoneNoResidant: [null],
-      mobileNo: [null],
-      fax: [null],
-      email: [''],
-      remarks: [''],
+        name: ['', [Validators.required, Validators.minLength(2)]],
+        gstNo: ['', [Validators.required, Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
+        panNo: ['', [Validators.required, Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
+        gstState: ['', [Validators.required]],
+        address: ['', [Validators.required, Validators.minLength(10)]],
+        coverAddress: [''],
+        state: ['', [Validators.required]],
+        district: ['', [Validators.required]],
+        city: ['', [Validators.required]],
+        pinCode: [null, [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+        phoneNoOffice: [null, [Validators.pattern('^[0-9]{10}$')]],
+        phoneNoResidant: [null, [Validators.pattern('^[0-9]{10}$')]],
+        mobileNo: [null, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        fax: [null],
+        email: ['', [Validators.email]],
+        remarks: [''],
       });
     }
   
@@ -98,6 +98,17 @@ import Swal from 'sweetalert2';
     }
   
     onSubmit(): void {
+      if (this.weaverForm.invalid) {
+        // Mark all fields as touched to trigger validation messages
+        Object.keys(this.weaverForm.controls).forEach((key) => {
+          const control = this.weaverForm.get(key);
+          if (control && key !== 'remarks' && key !== 'coverAddress' && key !== 'fax') {
+            control.markAsTouched();
+          }
+        });
+        return;
+      }
+
       const payload = {
         id: this.weaverId,
         customerId: localStorage.getItem('userId'),

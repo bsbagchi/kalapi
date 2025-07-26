@@ -9,10 +9,18 @@
       <div class="flex-1 space-y-3">
         <h1 class="text-[--blue-text] text-lg font-bold">Main Details</h1>
         <div class="w-full">
-          <span class="py-2">Name</span>
-          <input formControlName="name" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="name">
-          <div *ngIf="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched">
-            Name is required.
+          <span class="py-2">Name <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="name" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched"
+            [class.border-2]="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched"
+            type="text" 
+            id="name"
+            autofocus>
+          <div *ngIf="qualityForm.get('name')?.invalid && qualityForm.get('name')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('name')?.errors?.['required']">Name is required</span>
+            <span *ngIf="qualityForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
           </div>
         </div>
         <div class="w-full">
@@ -24,23 +32,48 @@
       <div class="flex-1 space-y-3">
         <h1 class="text-[--blue-text] text-lg font-bold">Tax Details</h1>
         <div class="w-full">
-          <span class="py-2">GST State</span>
+          <span class="py-2">GST State <span class="text-red-500">*</span></span>
           <select 
             formControlName="gstState" 
-            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('gstState')?.invalid && qualityForm.get('gstState')?.touched"
+            [class.border-2]="qualityForm.get('gstState')?.invalid && qualityForm.get('gstState')?.touched"
             id="gstState"
           >
             <option disabled value="">Select state</option>
             <option *ngFor="let state of states" [value]="state">{{ state }}</option>
           </select>
+          <div *ngIf="qualityForm.get('gstState')?.invalid && qualityForm.get('gstState')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('gstState')?.errors?.['required']">GST State is required</span>
+          </div>
         </div>
         <div class="w-full">
-          <span class="py-2">Pan Number</span>
-          <input formControlName="panNo" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="panNo">
+          <span class="py-2">Pan Number <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="panNo" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('panNo')?.invalid && qualityForm.get('panNo')?.touched"
+            [class.border-2]="qualityForm.get('panNo')?.invalid && qualityForm.get('panNo')?.touched"
+            type="text" 
+            id="panNo">
+          <div *ngIf="qualityForm.get('panNo')?.invalid && qualityForm.get('panNo')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('panNo')?.errors?.['required']">PAN number is required</span>
+            <span *ngIf="qualityForm.get('panNo')?.errors?.['pattern']">Please enter a valid PAN format (e.g., ABCDE1234F)</span>
+          </div>
         </div>
         <div class="w-full">
-          <span class="py-2">GST Number</span>
-          <input formControlName="gstNo" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="gstNo">
+          <span class="py-2">GST Number <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="gstNo" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('gstNo')?.invalid && qualityForm.get('gstNo')?.touched"
+            [class.border-2]="qualityForm.get('gstNo')?.invalid && qualityForm.get('gstNo')?.touched"
+            type="text" 
+            id="gstNo">
+          <div *ngIf="qualityForm.get('gstNo')?.invalid && qualityForm.get('gstNo')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('gstNo')?.errors?.['required']">GST number is required</span>
+            <span *ngIf="qualityForm.get('gstNo')?.errors?.['pattern']">Please enter a valid GST format</span>
+          </div>
         </div>
       </div>
     </div>
@@ -50,35 +83,78 @@
       <h1 class="text-[--blue-text] text-lg font-bold mb-4">Party Details</h1>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="w-full">
-          <span class="py-2">Address</span>
-          <input formControlName="address" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="address">
+          <span class="py-2">Address <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="address" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('address')?.invalid && qualityForm.get('address')?.touched"
+            [class.border-2]="qualityForm.get('address')?.invalid && qualityForm.get('address')?.touched"
+            type="text" 
+            id="address">
+          <div *ngIf="qualityForm.get('address')?.invalid && qualityForm.get('address')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('address')?.errors?.['required']">Address is required</span>
+            <span *ngIf="qualityForm.get('address')?.errors?.['minlength']">Address must be at least 10 characters</span>
+          </div>
         </div>
         <div class="w-full">
           <span class="py-2">Cover Address</span>
           <input formControlName="coverAddress" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="coverAddress">
         </div>
         <div class="w-full">
-          <span class="py-2">State</span>
+          <span class="py-2">State <span class="text-red-500">*</span></span>
           <select 
             formControlName="state" 
-            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('state')?.invalid && qualityForm.get('state')?.touched"
+            [class.border-2]="qualityForm.get('state')?.invalid && qualityForm.get('state')?.touched"
             id="state"
           >
             <option disabled value="">Select state</option>
             <option *ngFor="let state of states" [value]="state">{{ state }}</option>
           </select>
+          <div *ngIf="qualityForm.get('state')?.invalid && qualityForm.get('state')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('state')?.errors?.['required']">State is required</span>
+          </div>
         </div>
         <div class="w-full">
-          <span class="py-2">District</span>
-          <input formControlName="district" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="district">
+          <span class="py-2">District <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="district" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('district')?.invalid && qualityForm.get('district')?.touched"
+            [class.border-2]="qualityForm.get('district')?.invalid && qualityForm.get('district')?.touched"
+            type="text" 
+            id="district">
+          <div *ngIf="qualityForm.get('district')?.invalid && qualityForm.get('district')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('district')?.errors?.['required']">District is required</span>
+          </div>
         </div>
         <div class="w-full">
-          <span class="py-2">City</span>
-          <input formControlName="city" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="city">
+          <span class="py-2">City <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="city" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('city')?.invalid && qualityForm.get('city')?.touched"
+            [class.border-2]="qualityForm.get('city')?.invalid && qualityForm.get('city')?.touched"
+            type="text" 
+            id="city">
+          <div *ngIf="qualityForm.get('city')?.invalid && qualityForm.get('city')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('city')?.errors?.['required']">City is required</span>
+          </div>
         </div>
         <div class="w-full">
-          <span class="py-2">Pin Code</span>
-          <input formControlName="pinCode" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="pinCode">
+          <span class="py-2">Pin Code <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="pinCode" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('pinCode')?.invalid && qualityForm.get('pinCode')?.touched"
+            [class.border-2]="qualityForm.get('pinCode')?.invalid && qualityForm.get('pinCode')?.touched"
+            type="number" 
+            id="pinCode">
+          <div *ngIf="qualityForm.get('pinCode')?.invalid && qualityForm.get('pinCode')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('pinCode')?.errors?.['required']">PIN code is required</span>
+            <span *ngIf="qualityForm.get('pinCode')?.errors?.['pattern']">Please enter a valid 6-digit PIN code</span>
+          </div>
         </div>
         <div class="w-full">
           <span class="py-2">Phone (O)</span>
@@ -89,8 +165,18 @@
           <input formControlName="phoneNoResidant" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="phoneNoResidant">
         </div>
         <div class="w-full">
-          <span class="py-2">Mobile</span>
-          <input formControlName="mobileNo" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="mobileNo">
+          <span class="py-2">Mobile <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="mobileNo" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="qualityForm.get('mobileNo')?.invalid && qualityForm.get('mobileNo')?.touched"
+            [class.border-2]="qualityForm.get('mobileNo')?.invalid && qualityForm.get('mobileNo')?.touched"
+            type="number" 
+            id="mobileNo">
+          <div *ngIf="qualityForm.get('mobileNo')?.invalid && qualityForm.get('mobileNo')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="qualityForm.get('mobileNo')?.errors?.['required']">Mobile number is required</span>
+            <span *ngIf="qualityForm.get('mobileNo')?.errors?.['pattern']">Please enter a valid 10-digit mobile number</span>
+          </div>
         </div>
         <div class="w-full">
           <span class="py-2">Fax</span>

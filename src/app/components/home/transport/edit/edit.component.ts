@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 
@@ -27,7 +27,7 @@ export class TransportEditComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.transportForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       remarks: ['']
     });
   }
@@ -55,6 +55,17 @@ export class TransportEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.transportForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.transportForm.controls).forEach((key) => {
+        const control = this.transportForm.get(key);
+        if (control && key !== 'remarks') {
+          control.markAsTouched();
+        }
+      });
+      return;
+    }
+
     const now = new Date().toISOString();
     const payload = {
       id: this.transportId,

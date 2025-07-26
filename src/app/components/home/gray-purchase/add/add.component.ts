@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -62,7 +62,7 @@ export class GrayPurchaseAddComponent {
   }
   constructor(private fb: FormBuilder, private apiEngine: ApiEngineService, private router:Router) {
     this.agentForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       remarks: ['']
     });
   }
@@ -70,13 +70,23 @@ export class GrayPurchaseAddComponent {
   
 
   onSubmit(): void {
+    if (this.agentForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.agentForm.controls).forEach((key) => {
+        const control = this.agentForm.get(key);
+        if (control && key !== 'remarks') {
+          control.markAsTouched();
+        }
+      });
+      return;
+    }
+
     const formData = this.agentForm.value;
     const userId = localStorage.getItem('userId');
 
     const payload = {
       ...formData,
       customerId: userId || 0,
-
     };
 
     this.apiEngine.create('/api/Agent', payload).subscribe({

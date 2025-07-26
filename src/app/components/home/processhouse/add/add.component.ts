@@ -71,19 +71,19 @@ export class ProcessAddComponent {
     private router: Router,
   ) {
     this.qualityForm = this.fb.group({
-      name: ["", Validators.required],
-      gstNo: [""],
-      panNo: [""],
-      gstState: [""],
-      address: [""],
+      name: ["", [Validators.required, Validators.minLength(2)]],
+      gstNo: ["", [Validators.required, Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]],
+      panNo: ["", [Validators.required, Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$')]],
+      gstState: ["", [Validators.required]],
+      address: ["", [Validators.required, Validators.minLength(10)]],
       coverAddress: [""],
-      state: [""],
-      district: [""],
-      city: [""],
-      pinCode: [null],
-      phoneNoOffice: [null],
-      phoneNoResidant: [null],
-      mobileNo: [null],
+      state: ["", [Validators.required]],
+      district: ["", [Validators.required]],
+      city: ["", [Validators.required]],
+      pinCode: [null, [Validators.required, Validators.pattern('^[0-9]{6}$')]],
+      phoneNoOffice: [null, [Validators.pattern('^[0-9]{10}$')]],
+      phoneNoResidant: [null, [Validators.pattern('^[0-9]{10}$')]],
+      mobileNo: [null, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       fax: [null],
       email: ["", [Validators.email]],
       remarks: [""],
@@ -185,14 +185,9 @@ export class ProcessAddComponent {
       // Mark all fields as touched to trigger validation messages
       Object.keys(this.qualityForm.controls).forEach((key) => {
         const control = this.qualityForm.get(key)
-        control?.markAsTouched()
-      })
-
-      Swal.fire({
-        icon: "warning",
-        title: "Invalid Form",
-        text: "Please fill all required fields.",
-        confirmButtonText: "OK",
+        if (control && key !== 'remarks' && key !== 'coverAddress' && key !== 'fax') {
+          control.markAsTouched()
+        }
       })
       return
     }

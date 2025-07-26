@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
@@ -28,7 +28,7 @@ export class GrayPurchaseEditComponent implements OnInit {
     private apiEngine: ApiEngineService // ✅ inject the service
   ) {
     this.agentForm = this.fb.group({
-      name: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
       remarks: ['']
     });
   }
@@ -59,6 +59,17 @@ export class GrayPurchaseEditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.agentForm.invalid) {
+      // Mark all fields as touched to trigger validation messages
+      Object.keys(this.agentForm.controls).forEach((key) => {
+        const control = this.agentForm.get(key);
+        if (control && key !== 'remarks') {
+          control.markAsTouched();
+        }
+      });
+      return;
+    }
+
     const now = new Date().toISOString();
     const payload = {
       id: this.agentId,

@@ -2,7 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { API_BASE_URL, TOKEN_KEY } from './api.config';
+
+// API Configuration
+const API_BASE_URL = 'https://textileerp-001-site1.stempurl.com';
+const TOKEN_KEY = 'accessToken';
 
 export interface ApiEndpoint {
   name: string;

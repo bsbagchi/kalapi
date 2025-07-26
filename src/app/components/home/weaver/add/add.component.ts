@@ -58,13 +58,6 @@ export class WeaverAddComponent {
           control.markAsTouched();
         }
       });
-      
-      Swal.fire({
-        icon: 'warning',
-        title: 'Invalid Form',
-        text: 'Please fill all required fields correctly.',
-        confirmButtonText: 'OK'
-      });
       return;
     }
   
