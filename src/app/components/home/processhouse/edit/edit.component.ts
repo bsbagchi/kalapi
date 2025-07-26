@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProcessService } from '../../../../services/api/process.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -27,11 +27,11 @@ import Swal from 'sweetalert2';
         "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh",
         "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
       ];
-    constructor(
-      private route: ActivatedRoute,
-      private fb: FormBuilder,
-      private processService: ProcessService // ✅ inject the service
-    ) {
+      constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private apiEngine: ApiEngineService // ✅ inject the service
+  ) {
       this.weaverForm = this.fb.group({
         name: [''],
       gstNo: [''],
@@ -55,7 +55,7 @@ import Swal from 'sweetalert2';
     ngOnInit(): void {
       this.weaverId = Number(this.route.snapshot.paramMap.get('id'));
   
-      this.processService.getProcessById(this.weaverId).subscribe({
+      this.apiEngine.getById<any>('/api/ProcessHouse', this.weaverId).subscribe({
         next: (data) => {
           this.weaverForm.patchValue({
              name: data.name,
@@ -119,7 +119,7 @@ import Swal from 'sweetalert2';
         email: this.weaverForm.value.email,
       };
     
-      this.processService.updateProcess(this.weaverId, payload).subscribe({
+      this.apiEngine.update('/api/ProcessHouse', this.weaverId, payload).subscribe({
         next: (res) => {
           console.log('Process House updated successfully:', res);
           Swal.fire({

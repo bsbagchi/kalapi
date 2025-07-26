@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationConfig } from '../../../../interfaces/pagination.interface';
-import { TransportService } from '../../../../services/api/transport.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { PaginationComponent } from "../../../reuse/pagination/pagination.component";
 import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 
@@ -33,14 +33,14 @@ export class TransportHomeComponent {
     totalItems: 0,
   };
 
-  constructor(private TransportService: TransportService, private router: Router) {}
+  constructor(private apiEngine: ApiEngineService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchAgents();
   }
 
   fetchAgents(): void {
-    this.TransportService.getTransport().subscribe(
+    this.apiEngine.getAll('/api/Transport').subscribe(
       (data) => {
         this.transport = data;
         this.filteredTransport = data;
@@ -104,7 +104,7 @@ export class TransportHomeComponent {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.TransportService.deleteTransport(id).subscribe({
+        this.apiEngine.remove('/api/Transport', id).subscribe({
           next: () => {
             this.transport = this.transport.filter(transport => transport.id !== id);
             this.filterTransport();

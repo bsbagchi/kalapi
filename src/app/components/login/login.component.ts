@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LoginService } from '../../services/api/login.service';
+import { ApiEngineService } from '../../services/api/api-engine.service';
 import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 
 @Component({
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private loginService: LoginService
+    private apiEngine: ApiEngineService
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
@@ -43,14 +43,14 @@ export class LoginComponent implements OnInit {
         Password: password,
       };
 
-      this.loginService.login(loginPayload).subscribe({
+      this.apiEngine.login(loginPayload).subscribe({
         next: (res) => {
           console.log('Login successful', res);
           this.isLoggedIn = true;
           if (this.isBrowser()) {
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('username', username);
-            localStorage.setItem('userId', res.userId);
+            localStorage.setItem('userId', res.userId || '');
           }
 
           Swal.fire({

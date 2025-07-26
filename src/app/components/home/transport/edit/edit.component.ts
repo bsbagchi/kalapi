@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TransportService } from '../../../../services/api/transport.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -23,7 +23,7 @@ export class TransportEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private transportService: TransportService,
+    private apiEngine: ApiEngineService,
     private fb: FormBuilder
   ) {
     this.transportForm = this.fb.group({
@@ -35,7 +35,7 @@ export class TransportEditComponent implements OnInit {
   ngOnInit(): void {
     this.transportId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.transportService.getTransportById(this.transportId).subscribe({
+    this.apiEngine.getById<any>('/api/Transport', this.transportId).subscribe({
       next: (data) => {
         this.transportForm.patchValue({
           name: data.name,
@@ -65,7 +65,7 @@ export class TransportEditComponent implements OnInit {
       updatedDate: now
     };
 
-    this.transportService.updateTransport(this.transportId, payload).subscribe({
+    this.apiEngine.update('/api/Transport', this.transportId, payload).subscribe({
       next: (res) => {
         console.log('Transport updated successfully:', res);
         Swal.fire({

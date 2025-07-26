@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProcessService } from '../../../../services/api/process.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
@@ -28,14 +28,14 @@ export class ProcessHomeComponent implements OnInit {
     totalItems: 0,
   };
 
-  constructor(private processServce: ProcessService, private router: Router) {}
+  constructor(private apiEngine: ApiEngineService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchProcess();
   }
 
   fetchProcess(): void {
-    this.processServce.getProcess().subscribe(
+    this.apiEngine.getAll('/api/ProcessHouse').subscribe(
       (data) => {
         this.process = data;
         this.filteredProcess = data;
@@ -98,7 +98,7 @@ export class ProcessHomeComponent implements OnInit {
       cancelButtonText: 'No, cancel!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.processServce.deleteProcess(id).subscribe({
+        this.apiEngine.remove('/api/ProcessHouse', id).subscribe({
           next: () => {
             this.process = this.process.filter(process => process.id !== id);
             this.filterProcess();  // reapply filter after delete

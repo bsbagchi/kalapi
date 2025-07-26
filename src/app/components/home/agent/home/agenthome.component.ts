@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AgentService } from '../../../../services/api/agent.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
@@ -29,14 +29,14 @@ export class AgentHomeComponent implements OnInit {
     totalItems: 0,
   };
 
-  constructor(private AgentService: AgentService, private router: Router) {}
+  constructor(private apiEngine: ApiEngineService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchAgents();
   }
 
   fetchAgents(): void {
-    this.AgentService.getAgents().subscribe(
+    this.apiEngine.getAll('/api/Agent').subscribe(
       (data) => {
         // Map agents to exclude createdDate, updatedDate, and paNs
         this.agents = data.map(({ createdDate, updatedDate, paNs, ...rest }: any) => ({ ...rest }));
@@ -106,7 +106,7 @@ export class AgentHomeComponent implements OnInit {
       cancelButtonColor: '#d33'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.AgentService.deleteAgent(id).subscribe({
+        this.apiEngine.remove('/api/Agent', id).subscribe({
           next: () => {
             this.agents = this.agents.filter(agent => agent.id !== id);
             this.filterAgents();  // reapply filter after delete

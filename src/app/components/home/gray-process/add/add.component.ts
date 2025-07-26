@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { RouterModule } from "@angular/router"
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms"
-import { AgentService } from "../../../../services/api/agent.service"
+import { ApiEngineService } from "../../../../services/api/api-engine.service"
 import Swal from "sweetalert2"
 import { Router } from "@angular/router"
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser"
@@ -74,7 +74,7 @@ export class GrayProcessAddComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private agentService: AgentService,
+    private apiEngine: ApiEngineService,
     private router: Router,
     private sanitizer: DomSanitizer,
   ) {
@@ -395,7 +395,7 @@ export class GrayProcessAddComponent implements OnInit {
     submitData.append("totalDiscountAmount", this.totalDiscountAmount.toString())
     submitData.append("grandTotal", this.grandTotal.toString())
 
-    this.agentService.createAgent(submitData).subscribe({
+    this.apiEngine.create('/api/Agent', submitData).subscribe({
       next: (res) => {
         console.log("Gray process created successfully:", res)
         Swal.fire({

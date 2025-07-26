@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { QualityService } from '../../../../services/api/quality.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
@@ -28,14 +28,14 @@ export class QualityHomeComponent implements OnInit {
     totalItems: 0,
   };
 
-  constructor(private QualityService: QualityService, private router: Router) {}
+  constructor(private apiEngine: ApiEngineService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchQuality();
   }
 
   fetchQuality(): void {
-    this.QualityService.getQuality().subscribe(
+    this.apiEngine.getAll('/api/ClothQuality').subscribe(
       (data) => {
         this.quality = data;
         this.filteredQuality = data;
@@ -98,7 +98,7 @@ export class QualityHomeComponent implements OnInit {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.QualityService.deleteQuality(id).subscribe({
+        this.apiEngine.remove('/api/ClothQuality', id).subscribe({
           next: () => {
             this.quality = this.quality.filter(quality => quality.id !== id);
             this.filterQuality();  // reapply filter after delete

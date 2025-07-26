@@ -2,7 +2,7 @@ import { Component } from "@angular/core"
 import { CommonModule } from "@angular/common"
 import { RouterModule } from "@angular/router"
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from "@angular/forms"
-import { ProcessService } from "../../../../services/api/process.service"
+import { ApiEngineService } from "../../../../services/api/api-engine.service"
 import Swal from "sweetalert2"
 import { Router } from "@angular/router"
 
@@ -66,7 +66,7 @@ export class ProcessAddComponent {
   ]
 
   constructor(
-    private processService: ProcessService,
+    private apiEngine: ApiEngineService,
     private fb: FormBuilder,
     private router: Router,
   ) {
@@ -205,7 +205,7 @@ export class ProcessAddComponent {
 
     console.log("Submitting payload:", JSON.stringify(payload, null, 2))
 
-    this.processService.createProcess(payload).subscribe({
+    this.apiEngine.create('/api/ProcessHouse', payload).subscribe({
       next: (res) => {
         console.log("Process created successfully:", res)
         Swal.fire({

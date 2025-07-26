@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AgentService } from '../../../../services/api/agent.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -25,7 +25,7 @@ export class GrayProcessEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private agentService: AgentService // ✅ inject the service
+    private apiEngine: ApiEngineService // ✅ inject the service
   ) {
     this.agentForm = this.fb.group({
       name: [''],
@@ -36,7 +36,7 @@ export class GrayProcessEditComponent implements OnInit {
   ngOnInit(): void {
     this.agentId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.agentService.getAgentById(this.agentId).subscribe({
+    this.apiEngine.getById<any>('/api/Agent', this.agentId).subscribe({
       next: (data) => {
         this.agentForm.patchValue({
           name: data.name,
@@ -67,7 +67,7 @@ export class GrayProcessEditComponent implements OnInit {
       remarks: this.agentForm.value.remarks,
     };
 
-    this.agentService.updateAgent(this.agentId, payload).subscribe({
+    this.apiEngine.update('/api/Agent', this.agentId, payload).subscribe({
       next: (res) => {
         console.log('Agent updated successfully:', res);
         Swal.fire({

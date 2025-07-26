@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeaverService } from '../../../../services/api/weaver.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../reuse/pagination/pagination.component';
@@ -28,14 +28,14 @@ export class WeaverHomeComponent implements OnInit {
     totalItems: 0,
   };
 
-  constructor(private WeaverServce: WeaverService, private router: Router) {}
+  constructor(private apiEngine: ApiEngineService, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchWeaver();
   }
 
   fetchWeaver(): void {
-    this.WeaverServce.getWeaver().subscribe(
+    this.apiEngine.getAll('/api/Weaver').subscribe(
       (data) => {
         this.weaver = data;
         this.filteredWeaver = data;
@@ -97,7 +97,7 @@ export class WeaverHomeComponent implements OnInit {
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.WeaverServce.deleteWeaver(id).subscribe({
+        this.apiEngine.remove('/api/Weaver', id).subscribe({
           next: () => {
             this.weaver = this.weaver.filter(weaver => weaver.id !== id);
             this.filterWeaver();

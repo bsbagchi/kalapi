@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AgentService } from '../../../../services/api/agent.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 @Component({
@@ -60,7 +60,7 @@ export class GrayPurchaseAddComponent {
       this.editIndex--;
     }
   }
-  constructor(private fb: FormBuilder, private agentService: AgentService, private router:Router) {
+  constructor(private fb: FormBuilder, private apiEngine: ApiEngineService, private router:Router) {
     this.agentForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -79,7 +79,7 @@ export class GrayPurchaseAddComponent {
 
     };
 
-    this.agentService.createAgent(payload).subscribe({
+    this.apiEngine.create('/api/Agent', payload).subscribe({
       next: (res) => {
         console.log('Agent created successfully:', res);
         Swal.fire({

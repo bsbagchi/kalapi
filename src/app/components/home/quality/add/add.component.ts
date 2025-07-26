@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 // import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { QualityService } from '../../../../services/api/quality.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 
 @Component({
   selector: 'app-add-Quality',
@@ -22,7 +22,7 @@ export class QualityAddComponent {
   title = 'Add Quality';
   qualityForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private qualityService: QualityService) {
+  constructor(private fb: FormBuilder, private router: Router, private apiEngine: ApiEngineService) {
     this.qualityForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -38,7 +38,7 @@ export class QualityAddComponent {
       customerId: userId  // Add customerId key to payload
     };
 
-    this.qualityService.createQuality(payload).subscribe({
+    this.apiEngine.create('/api/ClothQuality', payload).subscribe({
       next: (res: any) => {
         console.log('Quality created successfully:', res);
         Swal.fire({

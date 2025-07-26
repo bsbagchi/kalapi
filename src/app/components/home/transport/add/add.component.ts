@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TransportService } from '../../../../services/api/transport.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,7 @@ export class TransportAddComponent {
   title = 'Add Transport';
   transportForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private transportService: TransportService) {
+  constructor(private fb: FormBuilder, private router: Router, private apiEngine: ApiEngineService) {
     this.transportForm = this.fb.group({
       name: [''],
       remarks: ['']
@@ -37,7 +37,7 @@ export class TransportAddComponent {
       customerId: userId  // Add customerId key to payload
     };
 
-    this.transportService.createTransport(payload).subscribe({
+    this.apiEngine.create('/api/Transport', payload).subscribe({
       next: (res) => {
         console.log('Transport created successfully:', res);
         Swal.fire({

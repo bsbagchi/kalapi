@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeaverService } from '../../../../services/api/weaver.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
@@ -31,7 +31,7 @@ export class WeaverEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private weaverService: WeaverService
+    private apiEngine: ApiEngineService
   ) {
     this.weaverForm = this.fb.group({
       name: [''],
@@ -56,7 +56,7 @@ export class WeaverEditComponent implements OnInit {
   ngOnInit(): void {
     this.weaverId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.weaverService.getWeaverById(this.weaverId).subscribe({
+    this.apiEngine.getById<any>('/api/Weaver', this.weaverId).subscribe({
       next: (data) => {
         this.weaverForm.patchValue({
           name: data.name,
@@ -111,7 +111,7 @@ export class WeaverEditComponent implements OnInit {
       email: this.weaverForm.value.email,
     };
 
-    this.weaverService.updateWeaver(this.weaverId, payload).subscribe({
+    this.apiEngine.update('/api/Weaver', this.weaverId, payload).subscribe({
       next: (res) => {
         console.log('Weaver updated successfully:', res);
         Swal.fire({

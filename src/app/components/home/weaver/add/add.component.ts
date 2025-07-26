@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { WeaverService } from '../../../../services/api/weaver.service';
+import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -28,7 +28,7 @@ export class WeaverAddComponent {
     "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
   ];
 
-  constructor(private weaverService: WeaverService, private fb: FormBuilder, private router:Router) {
+  constructor(private apiEngine: ApiEngineService, private fb: FormBuilder, private router:Router) {
     this.qualityForm = this.fb.group({
       name: [''],
       gstNo: [''],
@@ -67,7 +67,7 @@ export class WeaverAddComponent {
   
     console.log('Submitting payload:', JSON.stringify(payload, null, 2));
   
-    this.weaverService.createWeaver(payload).subscribe({
+    this.apiEngine.create('/api/Weaver', payload).subscribe({
       next: (res) => {
         console.log('Weaver created successfully:', res);
         Swal.fire({
