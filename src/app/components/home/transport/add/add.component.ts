@@ -48,7 +48,7 @@ export class TransportAddComponent {
 
     const payload = {
       ...formData,
-      customerId: userId  // Add customerId key to payload
+      customerId: Number(userId)  // Add customerId key to payload
     };
 
     this.apiEngine.create('/api/Transport', payload).subscribe({

@@ -73,7 +73,7 @@ export class QualityEditComponent implements OnInit {
     const now = new Date().toISOString(); // for createdDate / updatedDate
     const payload = {
       id: this.qualityId,
-      customerId: 0, // Assuming you're not using it now
+      customerId: Number(localStorage.getItem('userId')) || 0, // Assuming you're not using it now
       name: this.qualityForm.value.name,
       remarks: this.qualityForm.value.remarks,
       createdDate: now, 

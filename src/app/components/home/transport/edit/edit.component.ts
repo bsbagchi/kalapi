@@ -72,7 +72,7 @@ export class TransportEditComponent implements OnInit {
     const now = new Date().toISOString();
     const payload = {
       id: this.transportId,
-      customerId: 0,
+      customerId: Number(localStorage.getItem('userId')) || 0,
       name: this.transportForm.value.name,
       remarks: this.transportForm.value.remarks,
       createdDate: now, 
