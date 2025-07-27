@@ -1,0 +1,215 @@
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
+  <div class="bg-white w-full rounded-3xl shadow p-[2%]">
+    <div class="flex justify-between h-12 space-y-3">
+      <h1 class="text-[--blue-text] text-lg font-bold">Create Customer</h1>
+    </div>
+    <!-- Upper section: Main Details & Tax Details side by side on desktop, stacked on mobile -->
+    <div class="flex flex-col md:flex-row gap-10">
+      <!-- Main Details -->
+      <div class="flex-1 space-y-3">
+        <h1 class="text-[--blue-text] text-lg font-bold">Main Details</h1>
+        <div class="w-full">
+          <span class="py-2">Name <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="name" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('name')?.invalid && customerForm.get('name')?.touched"
+            [class.border-2]="customerForm.get('name')?.invalid && customerForm.get('name')?.touched"
+            type="text" 
+            id="name"
+            autofocus>
+          <div *ngIf="customerForm.get('name')?.invalid && customerForm.get('name')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('name')?.errors?.['required']">Name is required</span>
+            <span *ngIf="customerForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Password <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="password" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('password')?.invalid && customerForm.get('password')?.touched"
+            [class.border-2]="customerForm.get('password')?.invalid && customerForm.get('password')?.touched"
+            type="password" 
+            id="password">
+          <div *ngIf="customerForm.get('password')?.invalid && customerForm.get('password')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('password')?.errors?.['required']">Password is required</span>
+            <span *ngIf="customerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Remarks</span>
+          <input formControlName="remarks" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="remarks">
+        </div>
+      </div>
+      <!-- Tax Details -->
+      <div class="flex-1 space-y-3">
+        <h1 class="text-[--blue-text] text-lg font-bold">Tax Details</h1>
+        <div class="w-full">
+          <span class="py-2">GST State <span class="text-red-500">*</span></span>
+          <select 
+            formControlName="gstState" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('gstState')?.invalid && customerForm.get('gstState')?.touched"
+            [class.border-2]="customerForm.get('gstState')?.invalid && customerForm.get('gstState')?.touched"
+            id="select"
+          >
+            <option disabled value="">Select state</option>
+            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+          </select>
+          <div *ngIf="customerForm.get('gstState')?.invalid && customerForm.get('gstState')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('gstState')?.errors?.['required']">GST State is required</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Pan Number <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="panNo" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('panNo')?.invalid && customerForm.get('panNo')?.touched"
+            [class.border-2]="customerForm.get('panNo')?.invalid && customerForm.get('panNo')?.touched"
+            type="text" 
+            id="Pan">
+          <div *ngIf="customerForm.get('panNo')?.invalid && customerForm.get('panNo')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('panNo')?.errors?.['required']">PAN number is required</span>
+            <span *ngIf="customerForm.get('panNo')?.errors?.['pattern']">Please enter a valid PAN format (e.g., ABCDE1234F)</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">GST Number <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="gstNo" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('gstNo')?.invalid && customerForm.get('gstNo')?.touched"
+            [class.border-2]="customerForm.get('gstNo')?.invalid && customerForm.get('gstNo')?.touched"
+            type="text" 
+            id="GST">
+          <div *ngIf="customerForm.get('gstNo')?.invalid && customerForm.get('gstNo')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('gstNo')?.errors?.['required']">GST number is required</span>
+            <span *ngIf="customerForm.get('gstNo')?.errors?.['pattern']">Please enter a valid GST format</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Party Details section below -->
+    <div class="mt-8">
+      <h1 class="text-[--blue-text] text-lg font-bold mb-4">Party Details</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="w-full">
+          <span class="py-2">Address <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="address" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('address')?.invalid && customerForm.get('address')?.touched"
+            [class.border-2]="customerForm.get('address')?.invalid && customerForm.get('address')?.touched"
+            type="text" 
+            id="address">
+          <div *ngIf="customerForm.get('address')?.invalid && customerForm.get('address')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('address')?.errors?.['required']">Address is required</span>
+            <span *ngIf="customerForm.get('address')?.errors?.['minlength']">Address must be at least 10 characters</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Cover Address</span>
+          <input formControlName="coverAddress" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="coverAddress">
+        </div>
+        <div class="w-full">
+          <span class="py-2">State <span class="text-red-500">*</span></span>
+          <select 
+            formControlName="state" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('state')?.invalid && customerForm.get('state')?.touched"
+            [class.border-2]="customerForm.get('state')?.invalid && customerForm.get('state')?.touched"
+            id="state"
+          >
+            <option disabled value="">Select state</option>
+            <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+          </select>
+          <div *ngIf="customerForm.get('state')?.invalid && customerForm.get('state')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('state')?.errors?.['required']">State is required</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">District <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="district" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('district')?.invalid && customerForm.get('district')?.touched"
+            [class.border-2]="customerForm.get('district')?.invalid && customerForm.get('district')?.touched"
+            type="text" 
+            id="district">
+          <div *ngIf="customerForm.get('district')?.invalid && customerForm.get('district')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('district')?.errors?.['required']">District is required</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">City <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="city" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('city')?.invalid && customerForm.get('city')?.touched"
+            [class.border-2]="customerForm.get('city')?.invalid && customerForm.get('city')?.touched"
+            type="text" 
+            id="city">
+          <div *ngIf="customerForm.get('city')?.invalid && customerForm.get('city')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('city')?.errors?.['required']">City is required</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Pin Code <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="pinCode" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('pinCode')?.invalid && customerForm.get('pinCode')?.touched"
+            [class.border-2]="customerForm.get('pinCode')?.invalid && customerForm.get('pinCode')?.touched"
+            type="number" 
+            id="pinCode">
+          <div *ngIf="customerForm.get('pinCode')?.invalid && customerForm.get('pinCode')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('pinCode')?.errors?.['required']">PIN code is required</span>
+            <span *ngIf="customerForm.get('pinCode')?.errors?.['pattern']">Please enter a valid 6-digit PIN code</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Phone (O)</span>
+          <input formControlName="phoneNoOffice" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="phoneNoOffice">
+        </div>
+        <div class="w-full">
+          <span class="py-2">Phone (R)</span>
+          <input formControlName="phoneNoResidant" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="phoneNoResidant">
+        </div>
+        <div class="w-full">
+          <span class="py-2">Mobile <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="mobileNo" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('mobileNo')?.invalid && customerForm.get('mobileNo')?.touched"
+            [class.border-2]="customerForm.get('mobileNo')?.invalid && customerForm.get('mobileNo')?.touched"
+            type="number" 
+            id="mobileNo">
+          <div *ngIf="customerForm.get('mobileNo')?.invalid && customerForm.get('mobileNo')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('mobileNo')?.errors?.['required']">Mobile number is required</span>
+            <span *ngIf="customerForm.get('mobileNo')?.errors?.['pattern']">Please enter a valid 10-digit mobile number</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Fax</span>
+          <input formControlName="fax" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="number" id="fax">
+        </div>
+        <div class="w-full">
+          <span class="py-2">Email</span>
+          <input formControlName="email" class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]" type="text" id="email">
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-2 mt-8">
+      <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/customers']">
+        Cancel
+      </button>
+      <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [disabled]="customerForm.invalid">
+        Submit
+      </button>
+    </div>
+  </div>
+</form> 

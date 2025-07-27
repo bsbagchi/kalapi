@@ -73,7 +73,7 @@ export class GrayProcessEditComponent implements OnInit {
     const now = new Date().toISOString();
     const payload = {
       id: this.agentId,
-      customerId: localStorage.getItem('userId'),
+      customerId: Number(localStorage.getItem('userId')) || 0,
       name: this.agentForm.value.name,
       remarks: this.agentForm.value.remarks,
     };

@@ -4,7 +4,7 @@ import { HeaderComponent } from '../../reuse/header/header.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-agent', // Correct selector for the Dashboard component
+  selector: 'app-quality', // Correct selector for the Quality component
   standalone: true, // Marks this component as standalone
   imports: [CommonModule, HeaderComponent,RouterModule,RouterOutlet],
   templateUrl: './quality.component.html', // Points to the correct HTML file

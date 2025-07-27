@@ -118,7 +118,7 @@ export class AgentEditComponent implements OnInit {
 
     const formData = this.agentForm.value;
     const payload = {
-      customerId: localStorage.getItem('userId'),
+      customerId: Number(localStorage.getItem('userId')) || 0,
       name: formData.name,
       remarks: formData.remarks,
       address: formData.address,

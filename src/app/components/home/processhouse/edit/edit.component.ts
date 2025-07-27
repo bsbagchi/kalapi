@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import Swal from 'sweetalert2';
 
 @Component({
-    selector: 'app-edit-process',
+    selector: 'app-edit-processhouse',
     standalone: true,
     imports: [
       CommonModule,
@@ -111,7 +111,7 @@ import Swal from 'sweetalert2';
 
       const payload = {
         id: this.weaverId,
-        customerId: localStorage.getItem('userId'),
+        customerId: Number(localStorage.getItem('userId')) || 0,
         name: this.weaverForm.value.name,
         remarks: this.weaverForm.value.remarks,
         gstNo: this.weaverForm.value.gstNo,

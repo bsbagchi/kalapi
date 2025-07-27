@@ -83,10 +83,8 @@ export class LoginComponent implements OnInit {
 
   logout(): void {
     this.isLoggedIn = false;
-    if (this.isBrowser()) {
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('username');
-      localStorage.removeItem('userId');
+    // Use ApiEngineService for proper logout with token cleanup
+    this.apiEngine.logout();
       Swal.fire({
         icon: 'info',
         title: 'Logged Out',
@@ -96,7 +94,6 @@ export class LoginComponent implements OnInit {
       }).then(() => {
         this.router.navigate(['/login']);
       });
-    }
   }
 
   private isBrowser(): boolean {

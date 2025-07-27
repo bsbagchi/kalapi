@@ -12,6 +12,9 @@ import {QualityEditComponent} from './components/home/quality/edit/edit.componen
 import { ColorComponent } from './components/home/colors/colors.component';
 import { ColormasterComponent } from './components/home/colormaster/colormaster.component';
 import { CustomersComponent } from './components/home/customers/customers.component';
+import { CustomerHomeComponent } from './components/home/customers/home/customerhome.component';
+import { CustomerAddComponent } from './components/home/customers/add/add.component';
+import { CustomerEditComponent } from './components/home/customers/edit/edit.component';
 import { DesignComponent } from './components/home/designs/designs.component';
 import { PrintingComponent } from './components/home/printing/printing.component';
 import { UserProfileComponent } from './components/home/user-profile/user-profile.component';
@@ -64,6 +67,14 @@ export const routes: Routes = [
         ]
       },
       {
+        path:'customers',component: CustomersComponent,
+        children:[
+          {path:'',component:CustomerHomeComponent},
+          {path:'add',component:CustomerAddComponent},
+          {path:'edit/:id',component:CustomerEditComponent}
+        ]
+      },
+      {
         path:'process-house',component: ProcessComponent,
         children:[
           {path:'',component:ProcessHomeComponent},
@@ -107,7 +118,6 @@ export const routes: Routes = [
       },
 
 
-      { path: 'customers', component: CustomersComponent },
       { path: 'designs', component: DesignComponent },
       { path: 'printing', component: PrintingComponent },
       { path: 'user-profile', component: UserProfileComponent },

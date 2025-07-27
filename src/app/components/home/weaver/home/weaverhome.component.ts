@@ -8,7 +8,7 @@ import { PaginationConfig } from '../../../../interfaces/pagination.interface';
 import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 
 @Component({
-  selector: 'app-process-home',
+  selector: 'app-weaver-home',
   standalone: true,
   templateUrl: './weaverhome.component.html',
   imports: [CommonModule, RouterModule, FormsModule, PaginationComponent],

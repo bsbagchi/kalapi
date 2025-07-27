@@ -1,7 +1,7 @@
-<form [formGroup]="weaverForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
+<form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="px-[3%] py-3 md:py-5">
   <div class="bg-white w-full rounded-3xl shadow p-[2%]">
     <div class="flex justify-between h-12 space-y-3">
-      <h1 class="text-[--blue-text] text-lg font-bold">Edit Weaver</h1>
+      <h1 class="text-[--blue-text] text-lg font-bold">Edit Customer</h1>
     </div>
     <div class="flex flex-col md:flex-row gap-10">
       <div class="flex-1 space-y-3">
@@ -11,14 +11,28 @@
           <input 
             formControlName="name" 
             class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
-            [class.border-red-500]="weaverForm.get('name')?.invalid && weaverForm.get('name')?.touched"
-            [class.border-2]="weaverForm.get('name')?.invalid && weaverForm.get('name')?.touched"
+            [class.border-red-500]="customerForm.get('name')?.invalid && customerForm.get('name')?.touched"
+            [class.border-2]="customerForm.get('name')?.invalid && customerForm.get('name')?.touched"
             type="text" 
             id="name"
             autofocus>
-          <div *ngIf="weaverForm.get('name')?.invalid && weaverForm.get('name')?.touched" class="text-red-500 text-sm mt-1">
-            <span *ngIf="weaverForm.get('name')?.errors?.['required']">Name is required</span>
-            <span *ngIf="weaverForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+          <div *ngIf="customerForm.get('name')?.invalid && customerForm.get('name')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('name')?.errors?.['required']">Name is required</span>
+            <span *ngIf="customerForm.get('name')?.errors?.['minlength']">Name must be at least 2 characters</span>
+          </div>
+        </div>
+        <div class="w-full">
+          <span class="py-2">Password <span class="text-red-500">*</span></span>
+          <input 
+            formControlName="password" 
+            class="bg-[--input] h-[50px] w-full rounded-lg p-2 outline-none focus:ring-1 focus:ring-[--primary]"
+            [class.border-red-500]="customerForm.get('password')?.invalid && customerForm.get('password')?.touched"
+            [class.border-2]="customerForm.get('password')?.invalid && customerForm.get('password')?.touched"
+            type="password" 
+            id="password">
+          <div *ngIf="customerForm.get('password')?.invalid && customerForm.get('password')?.touched" class="text-red-500 text-sm mt-1">
+            <span *ngIf="customerForm.get('password')?.errors?.['required']">Password is required</span>
+            <span *ngIf="customerForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
           </div>
         </div>
         <div class="w-full">
@@ -106,12 +120,12 @@
       </div>
     </div>
     <div class="flex justify-end gap-2 mt-8">
-      <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/weaver']">
+      <button type="button" class="h-14 w-36 text-[--primary] border-[--primary] border hover:text-white hover:bg-black font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [routerLink]="['/customers']">
         Cancel
       </button>
-      <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [disabled]="weaverForm.invalid">
+      <button type="submit" class="h-14 w-36 bg-[--primary] hover:bg-black text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline" [disabled]="customerForm.invalid">
         Submit
       </button>
     </div>
   </div>
-</form>
+</form> 

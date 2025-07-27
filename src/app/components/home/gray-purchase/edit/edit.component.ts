@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-edit-agent',
+  selector: 'app-edit-purchase',
   standalone: true,
   imports: [
     CommonModule,
@@ -73,7 +73,7 @@ export class GrayPurchaseEditComponent implements OnInit {
     const now = new Date().toISOString();
     const payload = {
       id: this.agentId,
-      customerId: localStorage.getItem('userId'),
+      customerId: Number(localStorage.getItem('userId')) || 0,
       name: this.agentForm.value.name,
       remarks: this.agentForm.value.remarks,
     };

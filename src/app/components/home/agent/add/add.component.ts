@@ -93,7 +93,7 @@ export class AgentAddComponent {
     const userId = localStorage.getItem('userId');
 
     const payload = {
-      customerId: userId || 0,
+      customerId: Number(userId) || 0,
       name: formData.name,
       remarks: formData.remarks,
       address: formData.address,

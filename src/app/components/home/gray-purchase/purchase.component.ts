@@ -4,7 +4,7 @@ import { HeaderComponent } from '../../reuse/header/header.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-weaver', // Correct selector for the Dashboard component
+  selector: 'app-gray-purchase', // Correct selector for the Gray Purchase component
   standalone: true, // Marks this component as standalone
   imports: [CommonModule, HeaderComponent,RouterModule,RouterOutlet],
   templateUrl: './purchase.component.html', // Points to the correct HTML file

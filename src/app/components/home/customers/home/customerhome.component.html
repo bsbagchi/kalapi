@@ -1,0 +1,96 @@
+<div class="px-[3%] py-3 md:py-5">
+  <div class="bg-white w-full rounded-3xl shadow p-[3%]">
+    <div class="md:flex justify-between md:h-12">
+      <h1 class="text-[--blue-text] text-lg font-bold max-sm:py-2">{{title}}</h1>
+      <div class="md:flex gap-2 max-sm:space-y-2">
+        <!-- Bind the filter input to filterValue and trigger filterCustomers() on input -->
+        <input 
+          [(ngModel)]="filterValue" 
+          (input)="filterCustomers()" 
+          class="bg-[--input] px-3 max-sm:w-full max-sm:h-12 rounded-md" 
+          placeholder="Name, Email, Mobile or Remarks" 
+          type="text"
+        />
+        <button 
+          class="w-24 font-semibold text-white bg-[--primary] hover:bg-black rounded-lg max-sm:w-full max-sm:h-12" 
+          (click)="filterCustomers()">
+          Filter
+        </button>
+        <button 
+          routerLink="add" 
+          class="flex items-center justify-center bg-[--primary] hover:bg-black gap-2 w-24 rounded-lg font-semibold text-white max-sm:w-full max-sm:h-12">
+          <span class="text-3xl">+</span>
+          <h2>Add</h2>
+        </button>
+      </div>
+    </div>
+
+    <div class="pt-10 overflow-auto">
+      <div class="pt-10 overflow-x-auto">
+        <table class="w-full border-collapse border">
+          <thead>
+            <tr>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Name</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Remarks</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Gst Number</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Pan Number</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Gst State</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Address</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Cover Address</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">State</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">District</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">City</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Pin Code</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Phone No. Office</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Phone No. Residant</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Mobile No.</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Fax</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Email</th>
+              <th class="bg-[--input] py-1 font-bold text-sm px-2 text-left border">Action</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="paginatedCustomers.length > 0; else noData">
+            <tr *ngFor="let customer of paginatedCustomers" class="hover:bg-gray-50">
+              <td class="py-1 px-2 text-blue-600 border">{{ customer.name }}</td>
+              <td class="py-1 px-2 border">{{ customer.remarks }}</td>
+              <td class="py-1 px-2 border">{{ customer.gstNo }}</td>
+              <td class="py-1 px-2 border">{{ customer.panNo }}</td>
+              <td class="py-1 px-2 border">{{ customer.gstState }}</td>
+              <td class="py-1 px-2 border">{{ customer.address }}</td>
+              <td class="py-1 px-2 border">{{ customer.coverAddress }}</td>
+              <td class="py-1 px-2 border">{{ customer.state }}</td>
+              <td class="py-1 px-2 border">{{ customer.district }}</td>
+              <td class="py-1 px-2 border">{{ customer.city }}</td>
+              <td class="py-1 px-2 border">{{ customer.pinCode }}</td>
+              <td class="py-1 px-2 border">{{ customer.phoneNoOffice }}</td>
+              <td class="py-1 px-2 border">{{ customer.phoneNoResidant }}</td>
+              <td class="py-1 px-2 border">{{ customer.mobileNo }}</td>
+              <td class="py-1 px-2 border">{{ customer.fax }}</td>
+              <td class="py-1 px-2 border">{{ customer.email }}</td>
+              <td class="py-1 px-2 border">
+                <button (click)="editCustomer(customer.id)" class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg"><img src="/edit.svg" alt=""></button>
+                <!-- <button (click)="deleteCustomer(customer.id)" class="bg-blue-500 bg-opacity-20 text-white px-4 py-2 rounded-lg">delete</button> -->
+              </td>
+            </tr>
+          </tbody>
+           <!-- No Data Template -->
+        <ng-template #noData>
+          <tr>
+            <td colspan="16">
+              <div class="flex justify-center items-center h-48">
+                <p class="text-gray-500 text-lg">No Customer found.</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        </table>
+
+        <app-pagination 
+        [config]="paginationConfig"
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
+      </div>
+    </div>
+  </div>
+</div> 

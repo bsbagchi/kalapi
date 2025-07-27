@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../reuse/sidebar/sidebar.component';
 import { SidebarService } from '../../services/sidebar.service';
+import { ApiEngineService } from '../../services/api/api-engine.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,12 @@ export class HomeComponent {
   isDesktop = window.innerWidth >= 1024;
   isSidebarOpen$;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, public sidebarService: SidebarService) {
+  constructor(
+    private router: Router, 
+    private activatedRoute: ActivatedRoute, 
+    public sidebarService: SidebarService,
+    private apiEngine: ApiEngineService
+  ) {
     this.isSidebarOpen$ = this.sidebarService.isSidebarOpen$;
     
     // Subscribe to NavigationEnd event to get the current URL after navigation ends
@@ -37,10 +43,8 @@ export class HomeComponent {
   }
 
   logout(): void {
-    // Remove login state from localStorage
-    if (this.isBrowser()) {
-      localStorage.removeItem('isLoggedIn');
-    }
+    // Use ApiEngineService for proper logout with token cleanup
+    this.apiEngine.logout();
   }
 
   // Utility function to check if code is running in the browser

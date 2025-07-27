@@ -32,13 +32,44 @@ export interface LoginResponse {
 })
 export class ApiEngineService {
   private baseUrl = API_BASE_URL;
+  private tokenExpiryTimer: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Initialize token expiry timer for existing sessions
+    this.initializeTokenExpiryTimer();
+  }
+
+  /**
+   * Initialize token expiry timer for existing sessions
+   */
+  private initializeTokenExpiryTimer(): void {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token && !this.isTokenExpired()) {
+      try {
+        const parts = token.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          const currentTime = Math.floor(Date.now() / 1000);
+          const timeRemaining = payload.exp - currentTime;
+          
+          if (timeRemaining > 0) {
+            this.setupTokenExpiryTimer(timeRemaining);
+          } else {
+            // Token is expired, clear it
+            this.clearExpiredToken();
+          }
+        }
+      } catch (error) {
+        console.error('Error initializing token expiry timer:', error);
+        this.clearExpiredToken();
+      }
+    }
+  }
 
   /**
    * Check if token is expired
    */
-  private isTokenExpired(): boolean {
+  public isTokenExpired(): boolean {
     const token = localStorage.getItem(TOKEN_KEY);
     if (!token) {
       console.log('No token found in localStorage');
@@ -56,11 +87,7 @@ export class ApiEngineService {
       const currentTime = Math.floor(Date.now() / 1000);
       const isExpired = payload.exp < currentTime;
       
-      console.log('Token expiration check:', {
-        tokenExp: payload.exp,
-        currentTime: currentTime,
-        isExpired: isExpired
-      });
+   
       
       return isExpired;
     } catch (error) {
@@ -217,12 +244,7 @@ export class ApiEngineService {
             localStorage.setItem('username', response.name);
             
             // Set up token expiration timer
-            if (response.expireIn) {
-              setTimeout(() => {
-                this.clearExpiredToken();
-                console.log('Token expired automatically');
-              }, response.expireIn * 1000);
-            }
+            this.setupTokenExpiryTimer(response.expireIn);
           }
           observer.next(response);
           observer.complete();
@@ -235,9 +257,59 @@ export class ApiEngineService {
   }
 
   /**
+   * Setup token expiry timer
+   */
+  private setupTokenExpiryTimer(expireIn: number): void {
+    if (expireIn && expireIn > 0) {
+      // Clear any existing timer
+      if (this.tokenExpiryTimer) {
+        clearTimeout(this.tokenExpiryTimer);
+      }
+      
+      // Set new timer
+      this.tokenExpiryTimer = setTimeout(() => {
+        console.log('Token expired automatically');
+        this.clearExpiredToken();
+        // Redirect to login if not already there
+        if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
+      }, expireIn * 1000);
+    }
+  }
+
+  /**
+   * Refresh token expiry timer (useful for keeping session alive)
+   */
+  public refreshTokenTimer(): void {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+      try {
+        const parts = token.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          const currentTime = Math.floor(Date.now() / 1000);
+          const timeRemaining = payload.exp - currentTime;
+          
+          if (timeRemaining > 0) {
+            this.setupTokenExpiryTimer(timeRemaining);
+          }
+        }
+      } catch (error) {
+        console.error('Error refreshing token timer:', error);
+      }
+    }
+  }
+
+  /**
    * Logout operation
    */
   logout(): void {
+    // Clear token expiry timer
+    if (this.tokenExpiryTimer) {
+      clearTimeout(this.tokenExpiryTimer);
+      this.tokenExpiryTimer = null;
+    }
     this.clearExpiredToken();
   }
 
@@ -259,18 +331,54 @@ export class ApiEngineService {
     console.log('Token value:', token);
     console.log('Is expired:', this.isTokenExpired());
     console.log('Is authenticated:', this.isAuthenticated());
+    console.log('Token expiry timer active:', !!this.tokenExpiryTimer);
     
     if (token) {
       try {
         const parts = token.split('.');
         if (parts.length === 3) {
           const payload = JSON.parse(atob(parts[1]));
+          const currentTime = Math.floor(Date.now() / 1000);
+          const timeRemaining = payload.exp - currentTime;
           console.log('Token payload:', payload);
+          console.log('Time remaining (seconds):', timeRemaining);
+          console.log('Time remaining (minutes):', Math.floor(timeRemaining / 60));
         }
       } catch (error) {
         console.error('Error parsing token for debug:', error);
       }
     }
     console.log('========================');
+  }
+
+  /**
+   * Test method to simulate token expiry (for testing purposes)
+   */
+  testTokenExpiry(): void {
+    console.log('Testing token expiry...');
+    this.clearExpiredToken();
+    if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+      window.location.href = '/login';
+    }
+  }
+
+  /**
+   * Get remaining token time in seconds
+   */
+  getTokenRemainingTime(): number {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (token) {
+      try {
+        const parts = token.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(atob(parts[1]));
+          const currentTime = Math.floor(Date.now() / 1000);
+          return Math.max(0, payload.exp - currentTime);
+        }
+      } catch (error) {
+        console.error('Error getting token remaining time:', error);
+      }
+    }
+    return 0;
   }
 } 

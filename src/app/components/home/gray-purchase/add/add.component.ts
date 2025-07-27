@@ -86,7 +86,7 @@ export class GrayPurchaseAddComponent {
 
     const payload = {
       ...formData,
-      customerId: userId || 0,
+      customerId: Number(userId) || 0,
     };
 
     this.apiEngine.create('/api/Agent', payload).subscribe({

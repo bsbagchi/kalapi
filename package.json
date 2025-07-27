@@ -7,8 +7,8 @@
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:kalapi": "node dist/kalapi/server/server.mjs",
-    "build:ssr": "ng build --configuration production && ng run kalapi:server:production"
+    "serve:ssr": "node dist/textile-erp-frontend/server/server.mjs",
+    "build:ssr": "ng build --configuration production && ng run textile-erp-frontend:server:production"
   },
   "private": true,
   "dependencies": {

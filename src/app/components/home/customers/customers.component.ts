@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../reuse/header/header.component';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-customers', // Correct selector for the Dashboard component
-  standalone: true, // Marks this component as standalone
-  imports: [CommonModule, HeaderComponent],
-  templateUrl: './customers.component.html', // Points to the correct HTML file
+  selector: 'app-customers',
+  standalone: true,
+  imports: [CommonModule, HeaderComponent, RouterModule, RouterOutlet],
+  templateUrl: './customers.component.html',
 })
 export class CustomersComponent {
-  title = 'Customers'; // A title property for display or logic
+  title = 'Customers';
 }

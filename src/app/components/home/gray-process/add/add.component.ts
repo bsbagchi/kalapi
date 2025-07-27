@@ -399,7 +399,7 @@ export class GrayProcessAddComponent implements OnInit {
     }
 
     // Add other data
-    submitData.append("customerId", userId || "0")
+          submitData.append("customerId", (Number(userId) || 0).toString())
     submitData.append("products", JSON.stringify(this.products))
     submitData.append("totalAmount", this.totalAmount.toString())
     submitData.append("totalGST", this.totalGST.toString())

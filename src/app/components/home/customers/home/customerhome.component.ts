@@ -3,21 +3,21 @@ import { CommonModule } from '@angular/common';
 import { ApiEngineService } from '../../../../services/api/api-engine.service';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { PaginationComponent } from '../../../reuse/pagination/pagination.component';  // 👈 Import
-import { PaginationConfig } from '../../../../interfaces/pagination.interface';  // 👈 Import
+import { PaginationComponent } from '../../../reuse/pagination/pagination.component';
+import { PaginationConfig } from '../../../../interfaces/pagination.interface';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-purchase-home',
+  selector: 'app-customer-home',
   standalone: true,
-  templateUrl: './purchasehome.component.html',
+  templateUrl: './customerhome.component.html',
   imports: [CommonModule, RouterModule, FormsModule, PaginationComponent],
 })
-export class GrayPurchaseHomeComponent implements OnInit {
-  title = 'Purchase Management';
-  agents: any[] = [];
-  filteredAgents: any[] = [];
-  paginatedAgents: any[] = [];
+export class CustomerHomeComponent implements OnInit {
+  title = 'Customer Management';
+  customers: any[] = [];
+  filteredCustomers: any[] = [];
+  paginatedCustomers: any[] = [];
   filterValue = '';
   errorMessage = '';
 
@@ -31,26 +31,24 @@ export class GrayPurchaseHomeComponent implements OnInit {
   constructor(private apiEngine: ApiEngineService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchAgents();
+    this.fetchCustomers();
   }
 
-  fetchAgents(): void {
-    this.apiEngine.getAll('/api/Agent').subscribe(
+  fetchCustomers(): void {
+    this.apiEngine.getAll('/api/Customer').subscribe(
       (data) => {
-        this.agents = data;
-        this.filteredAgents = data;
+        this.customers = data;
+        this.filteredCustomers = data;
         this.setupPagination(data);
       },
       (error) => {
-        this.errorMessage = 'Failed to fetch agents';
+        this.errorMessage = 'Failed to fetch Customers';
         console.error(error);
         Swal.fire({
           icon: 'error',
-          title: 'Oops...',
-          text: 'Failed to fetch agent details!',
-          confirmButtonText: 'OK',
+          title: 'Error',
+          text: 'Failed to fetch customers!',
         });
-
       }
     );
   }
@@ -58,58 +56,58 @@ export class GrayPurchaseHomeComponent implements OnInit {
   setupPagination(data: any[]): void {
     this.paginationConfig.totalItems = data.length;
     this.paginationConfig.totalPages = Math.ceil(data.length / this.paginationConfig.itemsPerPage);
-    this.paginateAgents();
+    this.paginateCustomers();
   }
 
-  paginateAgents(): void {
+  paginateCustomers(): void {
     const start = (this.paginationConfig.currentPage - 1) * this.paginationConfig.itemsPerPage;
     const end = start + this.paginationConfig.itemsPerPage;
-    this.paginatedAgents = this.filteredAgents.slice(start, end);
+    this.paginatedCustomers = this.filteredCustomers.slice(start, end);
   }
 
   onPageChange(page: number): void {
     this.paginationConfig.currentPage = page;
-    this.paginateAgents();
+    this.paginateCustomers();
   }
 
-  filterAgents(): void {
+  filterCustomers(): void {
     if (!this.filterValue.trim()) {
-      this.filteredAgents = this.agents;
+      this.filteredCustomers = this.customers;
     } else {
       const lower = this.filterValue.toLowerCase();
-      this.filteredAgents = this.agents.filter(agent =>
-        agent.name.toLowerCase().includes(lower) || agent.remarks.toLowerCase().includes(lower)
+      this.filteredCustomers = this.customers.filter(customer =>
+        customer.name.toLowerCase().includes(lower) || 
+        customer.remarks?.toLowerCase().includes(lower) ||
+        customer.email?.toLowerCase().includes(lower) ||
+        customer.mobileNo?.toLowerCase().includes(lower)
       );
     }
 
-    this.setupPagination(this.filteredAgents);
+    this.setupPagination(this.filteredCustomers);
   }
 
-  editAgent(id: number): void {
-    this.router.navigate(['/agent/edit', id]);
+  editCustomer(id: number): void {
+    this.router.navigate(['/customers/edit', id]);
   }
 
-  deleteAgent(id: number): void {
+  deleteCustomer(id: number): void {
     Swal.fire({
-      icon: 'warning',
       title: 'Are you sure?',
-      text: 'Do you really want to delete this agent?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, Delete it!',
+      confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'Cancel',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.apiEngine.remove('/api/Agent', id).subscribe({
+        this.apiEngine.remove('/api/Customer', id).subscribe({
           next: () => {
-            this.agents = this.agents.filter(agent => agent.id !== id);
-            this.filterAgents();  // reapply filter after delete
+            this.customers = this.customers.filter(customer => customer.id !== id);
+            this.filterCustomers();
             Swal.fire({
               icon: 'success',
               title: 'Deleted!',
-              text: 'Agent deleted successfully!',
-              confirmButtonText: 'OK'
+              text: 'Customer deleted successfully.',
             });
           },
           error: (err) => {
@@ -117,12 +115,11 @@ export class GrayPurchaseHomeComponent implements OnInit {
             Swal.fire({
               icon: 'error',
               title: 'Failed!',
-              text: 'Failed to delete agent!',
-              confirmButtonText: 'Try Again'
+              text: 'Failed to delete the customer.',
             });
           }
         });
       }
     });
   }
-}
+} 

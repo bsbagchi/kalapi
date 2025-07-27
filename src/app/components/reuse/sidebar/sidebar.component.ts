@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators'; // Import the filter operator to listen to NavigationEnd
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngClass
 import { RouterModule } from '@angular/router';
+import { ApiEngineService } from '../../../services/api/api-engine.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,7 +17,11 @@ export class SidebarComponent {
   title = 'Sidebar';
   currentUrl: string = ''; // Variable to store the current URL
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(
+    private router: Router, 
+    private activatedRoute: ActivatedRoute,
+    private apiEngine: ApiEngineService
+  ) {
     // Subscribe to NavigationEnd event to get the current URL after navigation ends
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd)) // Filter to listen for NavigationEnd event
@@ -26,8 +31,8 @@ export class SidebarComponent {
   }
 
   logout(): void {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('username'); // Remove username
+    // Use ApiEngineService for proper logout with token cleanup
+    this.apiEngine.logout();
     this.router.navigate(['/login']);
   }
 
