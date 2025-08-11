@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ReactiveFormsModule,FormBuilder,FormGroup,Validators} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiEngineService } from '../../services/api/api-engine.service';
@@ -14,6 +14,7 @@ import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoggedIn = false;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,8 +35,20 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  get f() {
+    return this.loginForm.controls;
+  }
+
   onSubmit(): void {
-    if (this.loginForm.valid) {
+    this.submitted = true;
+
+    // Stop here if the form is invalid
+    if (this.loginForm.invalid) {
+      // The red borders will appear automatically due to the 'submitted' flag
+      return;
+    }
+
+    {
       const { username, password } = this.loginForm.value;
 
       const loginPayload = {
@@ -85,15 +98,15 @@ export class LoginComponent implements OnInit {
     this.isLoggedIn = false;
     // Use ApiEngineService for proper logout with token cleanup
     this.apiEngine.logout();
-      Swal.fire({
-        icon: 'info',
-        title: 'Logged Out',
-        text: 'You have been logged out successfully.',
-        timer: 1500,
-        showConfirmButton: false,
-      }).then(() => {
-        this.router.navigate(['/login']);
-      });
+    Swal.fire({
+      icon: 'info',
+      title: 'Logged Out',
+      text: 'You have been logged out successfully.',
+      timer: 1500,
+      showConfirmButton: false,
+    }).then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
   private isBrowser(): boolean {
