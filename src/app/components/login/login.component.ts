@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ReactiveFormsModule,FormBuilder,FormGroup,Validators} from '@angular/forms';
+import {ReactiveFormsModule,FormBuilder,FormGroup,Validators,} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiEngineService } from '../../services/api/api-engine.service';
@@ -14,7 +14,6 @@ import Swal from 'sweetalert2'; // ✅ Import SweetAlert2
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoggedIn = false;
-  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -40,11 +39,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.submitted = true;
-
-    // Stop here if the form is invalid
     if (this.loginForm.invalid) {
-      // The red borders will appear automatically due to the 'submitted' flag
       return;
     }
 
