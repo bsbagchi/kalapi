@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
   templateUrl: './edit.component.html',
 })
 export class GrayProcessEditComponent implements OnInit {
-  title = 'Update Gray Process';
+  title = 'Update Process';
   agentForm: FormGroup;
   agentId!: number;
 

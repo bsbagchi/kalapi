@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-edit-purchase',
+  selector: 'app-edit-gray-purchase',
   standalone: true,
   imports: [
     CommonModule,
@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
   templateUrl: './edit.component.html',
 })
 export class GrayPurchaseEditComponent implements OnInit {
-  title = 'Update Purchase';
+  title = 'Update Gray Purchase';
   agentForm: FormGroup;
   agentId!: number;
 

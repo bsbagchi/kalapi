@@ -8,13 +8,13 @@ import { PaginationConfig } from '../../../../interfaces/pagination.interface'; 
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-purchase-home',
+  selector: 'app-gray-purchase-home',
   standalone: true,
-  templateUrl: './purchasehome.component.html',
+  templateUrl: './processhome.component.html',
   imports: [CommonModule, RouterModule, FormsModule, PaginationComponent],
 })
 export class GrayPurchaseHomeComponent implements OnInit {
-  title = 'Purchase Management';
+  title = 'Gray Purchase Management';
   agents: any[] = [];
   filteredAgents: any[] = [];
   paginatedAgents: any[] = [];
@@ -86,7 +86,7 @@ export class GrayPurchaseHomeComponent implements OnInit {
   }
 
   editAgent(id: number): void {
-    this.router.navigate(['/agent/edit', id]);
+    this.router.navigate(['/gray-purchase/edit', id]);
   }
 
   deleteAgent(id: number): void {

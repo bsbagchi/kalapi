@@ -8,13 +8,13 @@ import { PaginationConfig } from '../../../../interfaces/pagination.interface'; 
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-gray-process-home',
+  selector: 'app-process-home',
   standalone: true,
-  templateUrl: './processhome.component.html',
+  templateUrl: './purchasehome.component.html',
   imports: [CommonModule, RouterModule, FormsModule, PaginationComponent],
 })
 export class GrayProcessHomeComponent implements OnInit {
-  title = 'Gray Process Management';
+  title = 'Process Management';
   agents: any[] = [];
   filteredAgents: any[] = [];
   paginatedAgents: any[] = [];
@@ -86,7 +86,7 @@ export class GrayProcessHomeComponent implements OnInit {
   }
 
   editAgent(id: number): void {
-    this.router.navigate(['/agent/edit', id]);
+    this.router.navigate(['/gray-process/edit', id]);
   }
 
   deleteAgent(id: number): void {

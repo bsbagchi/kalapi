@@ -33,12 +33,12 @@ import { ProcessComponent } from './components/home/processhouse/processhouse.co
 import { ProcessHomeComponent } from './components/home/processhouse/home/processhome.component';
 import { ProcessAddComponent } from './components/home/processhouse/add/add.component';
 import { ProcessEditComponent } from './components/home/processhouse/edit/edit.component';
-import { GrayPurchaseComponent } from './components/home/gray-purchase/purchase.component';
-import { GrayProcessComponent } from './components/home/gray-process/process.component';
-import { GrayProcessHomeComponent } from './components/home/gray-process/home/processhome.component';
+import { GrayProcessComponent } from './components/home/gray-process/purchase.component';
+import { GrayPurchaseComponent } from './components/home/gray-purchase/process.component';
+import { GrayProcessHomeComponent } from './components/home/gray-process/home/purchasehome.component';
 import { GrayProcessEditComponent } from './components/home/gray-process/edit/edit.component';
 import { GrayProcessAddComponent } from './components/home/gray-process/add/add.component';
-import { GrayPurchaseHomeComponent } from './components/home/gray-purchase/home/purchasehome.component';
+import { GrayPurchaseHomeComponent } from './components/home/gray-purchase/home/processhome.component';
 import { GrayPurchaseAddComponent } from './components/home/gray-purchase/add/add.component';
 import { GrayPurchaseEditComponent } from './components/home/gray-purchase/edit/edit.component';
 
